@@ -33,7 +33,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func hide(sender: AnyObject) {
-    
+        let image = imageView.image!
+        
+        let lay1 = CALayer()
+        lay1.backgroundColor = UIColor(red: 1, green: 0.4, blue: 1, alpha: 1).CGColor
+        lay1.frame = CGRectMake(113, 111, 132, 194)
+        
+        imageView.layer.addSublayer(lay1)
     }
     
     override func didReceiveMemoryWarning() {

@@ -409,6 +409,7 @@
 				48BD2F2C1AA1F786007BE021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		48BD2F2D1AA1F786007BE021 /* Build configuration list for PBXNativeTarget "IncognitoTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +418,7 @@
 				48BD2F2F1AA1F786007BE021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
