@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -40,9 +40,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXD-Mj-IGV">
                                         <rect key="frame" x="101" y="10" width="30" height="30"/>
-                                        <state key="normal" title="hide">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <state key="normal" title="hide"/>
                                         <connections>
                                             <action selector="hide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SLC-eU-QNQ"/>
                                         </connections>
@@ -67,14 +65,29 @@
                                     <rect key="frame" x="88" y="0.0" width="225" height="400"/>
                                 </variation>
                             </imageView>
+                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hat" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-Cg-MAc">
+                                <rect key="frame" x="212" y="223" width="163" height="121"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="121" id="Hst-mO-O6a"/>
+                                    <constraint firstAttribute="width" constant="163" id="Xbs-7n-afz"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="DMR-Uu-f2I" appends="YES" id="ky0-EM-OpM"/>
+                                    <outletCollection property="gestureRecognizers" destination="1Rf-9V-x7O" appends="YES" id="RTg-fs-rSG"/>
+                                    <outletCollection property="gestureRecognizers" destination="Os0-0V-Ues" appends="YES" id="FaK-0H-36R"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="h4k-37-TH6" secondAttribute="bottom" id="4co-E0-D0C"/>
                             <constraint firstItem="h4k-37-TH6" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="6Pj-le-Bty"/>
+                            <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerX" secondItem="y2R-Cg-MAc" secondAttribute="centerX" constant="-9.5" id="AC5-m1-NAb"/>
                             <constraint firstItem="h4k-37-TH6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="CKn-3a-EYW"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" id="JnR-Oc-3BD"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-16" id="O4o-cK-1Mm"/>
+                            <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerY" secondItem="y2R-Cg-MAc" secondAttribute="centerY" constant="0.5" id="V6h-1c-Ke7"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="h4k-37-TH6" secondAttribute="bottom" id="VzW-t4-NZT"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-16" id="YrZ-Hh-9Bw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" id="n6H-EQ-GUc"/>
@@ -82,11 +95,33 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="glassesImage" destination="y2R-Cg-MAc" id="I76-2b-JCa"/>
                         <outlet property="imageView" destination="jRg-4c-Ym0" id="t3n-Wf-2yQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="DMR-Uu-f2I">
+                    <connections>
+                        <action selector="handleHatMove:" destination="BYZ-38-t0r" id="Mwe-WZ-hiF"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="S4W-01-vVv"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="1Rf-9V-x7O">
+                    <connections>
+                        <action selector="pinchHat:" destination="BYZ-38-t0r" id="ZHL-as-Vo8"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="bUz-x6-hYk"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer id="Os0-0V-Ues">
+                    <connections>
+                        <action selector="rotateHat:" destination="BYZ-38-t0r" id="I3X-eI-EK2"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="DO6-Nn-rSk"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="hat" width="3653" height="3410"/>
+    </resources>
 </document>
