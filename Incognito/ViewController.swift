@@ -128,14 +128,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func extractImageAsMultipartParams() -> [String: AnyObject] {
-        ///self.menuView.hidden = true
         UIGraphicsBeginImageContext(self.view.frame.size)
         self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
         let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
-        //self.menuView.hidden = false
-        
+
         let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
             name: "image",
             filename: "incognito_photo",
