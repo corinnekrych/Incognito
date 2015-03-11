@@ -19,6 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var hatImage: UIImageView!
     @IBOutlet weak var glassesImage: UIImageView!
+    @IBOutlet weak var moustacheImage: UIImageView!
     @IBOutlet weak var menuView: UIView!
 
     var http: Http!
@@ -66,13 +67,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func hideShowHat(sender: AnyObject) {
-        let image = imageView.image!
         hatImage.hidden = !hatImage.hidden
     }
+    
     @IBAction func hideShowGlasses(sender: AnyObject) {
-        let image = imageView.image!
         glassesImage.hidden = !glassesImage.hidden
     }
+    
+    @IBAction func hideShowMoustache(sender: AnyObject) {
+        moustacheImage.hidden = !moustacheImage.hidden
+    }
+    
     @IBAction func share(sender: UIButton) {
         println("Perform photo upload with Google")
         

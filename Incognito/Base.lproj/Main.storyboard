@@ -63,15 +63,26 @@
                                             <action selector="hideShowGlasses:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GnR-ci-wfP"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUZ-hk-NH4">
+                                        <rect key="frame" x="167" y="10" width="68" height="30"/>
+                                        <state key="normal" title="Mustache">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="hideShowMoustache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NmQ-Lj-Zxu"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.85098039219999999" green="0.20392156859999999" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="itJ-5m-bFH" firstAttribute="leading" secondItem="h4k-37-TH6" secondAttribute="leading" constant="20" symbolic="YES" id="1Vj-bB-lQu"/>
+                                    <constraint firstAttribute="bottom" secondItem="LUZ-hk-NH4" secondAttribute="bottom" constant="20" symbolic="YES" id="42I-ee-dYe"/>
                                     <constraint firstItem="wb3-ax-cSd" firstAttribute="leading" secondItem="KXD-Mj-IGV" secondAttribute="trailing" constant="8" symbolic="YES" id="BbD-SX-UAN"/>
                                     <constraint firstAttribute="bottom" secondItem="KXD-Mj-IGV" secondAttribute="bottom" constant="20" symbolic="YES" id="Lss-9L-J9r"/>
                                     <constraint firstAttribute="bottom" secondItem="DvK-As-fP5" secondAttribute="bottom" constant="20" symbolic="YES" id="REE-ZB-2rn"/>
                                     <constraint firstAttribute="trailing" secondItem="DvK-As-fP5" secondAttribute="trailing" constant="20" symbolic="YES" id="TJI-7f-r3Q"/>
+                                    <constraint firstItem="LUZ-hk-NH4" firstAttribute="leading" secondItem="wb3-ax-cSd" secondAttribute="trailing" constant="8" symbolic="YES" id="e90-lf-Nts"/>
                                     <constraint firstAttribute="height" constant="60" id="feR-0K-ski"/>
                                     <constraint firstItem="KXD-Mj-IGV" firstAttribute="leading" secondItem="itJ-5m-bFH" secondAttribute="trailing" constant="8" symbolic="YES" id="foU-BJ-X05"/>
                                     <constraint firstAttribute="bottom" secondItem="wb3-ax-cSd" secondAttribute="bottom" constant="20" symbolic="YES" id="sVq-7f-Wu5"/>
@@ -89,6 +100,19 @@
                                     <outletCollection property="gestureRecognizers" destination="DMR-Uu-f2I" appends="YES" id="ky0-EM-OpM"/>
                                     <outletCollection property="gestureRecognizers" destination="1Rf-9V-x7O" appends="YES" id="RTg-fs-rSG"/>
                                     <outletCollection property="gestureRecognizers" destination="Os0-0V-Ues" appends="YES" id="FaK-0H-36R"/>
+                                </connections>
+                            </imageView>
+                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="moustache_1" translatesAutoresizingMaskIntoConstraints="NO" id="Oa5-fV-eXG">
+                                <rect key="frame" x="173" y="229" width="240" height="128"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="KT0-cr-f5R"/>
+                                    <constraint firstAttribute="width" constant="240" id="x2z-x5-WVu"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="FXa-wn-KJa" appends="YES" id="ZxE-Ju-txQ"/>
+                                    <outletCollection property="gestureRecognizers" destination="imf-57-Mca" appends="YES" id="tXu-c0-E8b"/>
+                                    <outletCollection property="gestureRecognizers" destination="rim-2x-x3x" appends="YES" id="93v-A3-Je6"/>
                                 </connections>
                             </imageView>
                             <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glasses_1" translatesAutoresizingMaskIntoConstraints="NO" id="oUH-8d-Mgj" userLabel="glasses">
@@ -112,10 +136,12 @@
                             <constraint firstItem="h4k-37-TH6" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" constant="-60" id="6nZ-1E-LZH"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerX" secondItem="y2R-Cg-MAc" secondAttribute="centerX" constant="-9.5" id="AC5-m1-NAb"/>
                             <constraint firstItem="h4k-37-TH6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="CKn-3a-EYW"/>
+                            <constraint firstAttribute="centerY" secondItem="Oa5-fV-eXG" secondAttribute="centerY" constant="7" id="G7Z-Jn-3zf"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" id="JnR-Oc-3BD"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-16" id="O4o-cK-1Mm"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerY" secondItem="y2R-Cg-MAc" secondAttribute="centerY" constant="0.5" id="V6h-1c-Ke7"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="h4k-37-TH6" secondAttribute="bottom" id="VzW-t4-NZT"/>
+                            <constraint firstAttribute="centerX" secondItem="Oa5-fV-eXG" secondAttribute="centerX" constant="7" id="W5O-09-fAt"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-16" id="YrZ-Hh-9Bw"/>
                             <constraint firstAttribute="centerY" secondItem="oUH-8d-Mgj" secondAttribute="centerY" constant="7.5" id="f74-tt-5qz"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" id="n6H-EQ-GUc"/>
@@ -128,6 +154,7 @@
                         <outlet property="hatImage" destination="y2R-Cg-MAc" id="Pee-aq-jww"/>
                         <outlet property="imageView" destination="jRg-4c-Ym0" id="t3n-Wf-2yQ"/>
                         <outlet property="menuView" destination="h4k-37-TH6" id="nxm-Dy-rfp"/>
+                        <outlet property="moustacheImage" destination="Oa5-fV-eXG" id="ghu-1f-fUB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -164,11 +191,27 @@
                         <action selector="rotate:" destination="BYZ-38-t0r" id="oL5-Ba-6Jg"/>
                     </connections>
                 </rotationGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="FXa-wn-KJa">
+                    <connections>
+                        <action selector="move:" destination="BYZ-38-t0r" id="Tzw-yK-KJ5"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="imf-57-Mca">
+                    <connections>
+                        <action selector="pinch:" destination="BYZ-38-t0r" id="GLi-aY-SJL"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer id="rim-2x-x3x">
+                    <connections>
+                        <action selector="rotate:" destination="BYZ-38-t0r" id="2QF-Sy-kT3"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
         </scene>
     </scenes>
     <resources>
         <image name="glasses_1" width="700" height="234"/>
         <image name="hat" width="3653" height="3410"/>
+        <image name="moustache_1" width="600" height="194"/>
     </resources>
 </document>

@@ -120,12 +120,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Incognito/ViewController.swift"
-            timestampString = "447775273.879043"
+            timestampString = "447776133.670184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "pinchHat(_:)"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "pinch(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
