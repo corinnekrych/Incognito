@@ -20,7 +20,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var hatImage: UIImageView!
     @IBOutlet weak var glassesImage: UIImageView!
     @IBOutlet weak var moustacheImage: UIImageView!
-    @IBOutlet weak var menuView: UIView!
 
     var http: Http!
     
@@ -78,7 +77,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         moustacheImage.hidden = !moustacheImage.hidden
     }
     
-    @IBAction func share(sender: UIButton) {
+    @IBAction func share(sender: AnyObject) {
         println("Perform photo upload with Google")
         
         let googleConfig = GoogleConfig(
@@ -129,13 +128,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func extractImageAsMultipartParams() -> [String: AnyObject] {
-        self.menuView.hidden = true
+        ///self.menuView.hidden = true
         UIGraphicsBeginImageContext(self.view.frame.size)
         self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
         let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
-        self.menuView.hidden = false
+        //self.menuView.hidden = false
         
         let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
             name: "image",

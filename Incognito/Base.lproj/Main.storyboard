@@ -19,6 +19,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jRg-4c-Ym0">
                                 <rect key="frame" x="-32" y="-32" width="632" height="632"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="188" y="0.0" width="225" height="400"/>
                                 </variation>
@@ -26,69 +27,6 @@
                                     <rect key="frame" x="88" y="0.0" width="225" height="400"/>
                                 </variation>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h4k-37-TH6">
-                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itJ-5m-bFH">
-                                        <rect key="frame" x="20" y="10" width="38" height="30"/>
-                                        <state key="normal" title="Open">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="openCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2U8-Ff-umR"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXD-Mj-IGV">
-                                        <rect key="frame" x="66" y="10" width="30" height="30"/>
-                                        <state key="normal" title="Hat"/>
-                                        <connections>
-                                            <action selector="hideShowHat:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EaY-5w-hvP"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DvK-As-fP5">
-                                        <rect key="frame" x="540" y="10" width="40" height="30"/>
-                                        <state key="normal" title="Share">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="share:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FJB-MM-Otw"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wb3-ax-cSd">
-                                        <rect key="frame" x="104" y="10" width="55" height="30"/>
-                                        <state key="normal" title="Glasses">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="hideShowGlasses:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GnR-ci-wfP"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUZ-hk-NH4">
-                                        <rect key="frame" x="167" y="10" width="68" height="30"/>
-                                        <state key="normal" title="Mustache">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="hideShowMoustache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NmQ-Lj-Zxu"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="0.85098039219999999" green="0.20392156859999999" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="itJ-5m-bFH" firstAttribute="leading" secondItem="h4k-37-TH6" secondAttribute="leading" constant="20" symbolic="YES" id="1Vj-bB-lQu"/>
-                                    <constraint firstAttribute="bottom" secondItem="LUZ-hk-NH4" secondAttribute="bottom" constant="20" symbolic="YES" id="42I-ee-dYe"/>
-                                    <constraint firstItem="wb3-ax-cSd" firstAttribute="leading" secondItem="KXD-Mj-IGV" secondAttribute="trailing" constant="8" symbolic="YES" id="BbD-SX-UAN"/>
-                                    <constraint firstAttribute="bottom" secondItem="KXD-Mj-IGV" secondAttribute="bottom" constant="20" symbolic="YES" id="Lss-9L-J9r"/>
-                                    <constraint firstAttribute="bottom" secondItem="DvK-As-fP5" secondAttribute="bottom" constant="20" symbolic="YES" id="REE-ZB-2rn"/>
-                                    <constraint firstAttribute="trailing" secondItem="DvK-As-fP5" secondAttribute="trailing" constant="20" symbolic="YES" id="TJI-7f-r3Q"/>
-                                    <constraint firstItem="LUZ-hk-NH4" firstAttribute="leading" secondItem="wb3-ax-cSd" secondAttribute="trailing" constant="8" symbolic="YES" id="e90-lf-Nts"/>
-                                    <constraint firstAttribute="height" constant="60" id="feR-0K-ski"/>
-                                    <constraint firstItem="KXD-Mj-IGV" firstAttribute="leading" secondItem="itJ-5m-bFH" secondAttribute="trailing" constant="8" symbolic="YES" id="foU-BJ-X05"/>
-                                    <constraint firstAttribute="bottom" secondItem="wb3-ax-cSd" secondAttribute="bottom" constant="20" symbolic="YES" id="sVq-7f-Wu5"/>
-                                    <constraint firstAttribute="bottom" secondItem="itJ-5m-bFH" secondAttribute="bottom" constant="20" symbolic="YES" id="sxG-KU-nze"/>
-                                </constraints>
-                            </view>
                             <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hat" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-Cg-MAc">
                                 <rect key="frame" x="212" y="223" width="163" height="121"/>
                                 <gestureRecognizers/>
@@ -128,32 +66,69 @@
                                     <outletCollection property="gestureRecognizers" destination="Bcx-ND-cs5" appends="YES" id="EZZ-jn-KbE"/>
                                 </connections>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="0uL-Ez-9mw">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <barButtonItem systemItem="camera" id="ijF-ut-veV">
+                                        <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <connections>
+                                            <action selector="openCamera:" destination="BYZ-38-t0r" id="vUk-uY-7B8"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="X6l-iD-V2G"/>
+                                    <barButtonItem title="Hat" id="vJo-Xo-NcR">
+                                        <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <connections>
+                                            <action selector="hideShowHat:" destination="BYZ-38-t0r" id="gRI-2n-t8C"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dze-GU-cs3"/>
+                                    <barButtonItem title="Glasses" id="yHr-0B-Z5V">
+                                        <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <connections>
+                                            <action selector="hideShowGlasses:" destination="BYZ-38-t0r" id="pIS-4y-sEt"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="SFf-3W-dVp"/>
+                                    <barButtonItem title="Mustache" id="Y1q-0d-Azy">
+                                        <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <connections>
+                                            <action selector="hideShowMoustache:" destination="BYZ-38-t0r" id="o0z-5L-tr1"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="oNM-YR-FJX"/>
+                                    <barButtonItem systemItem="action" id="CIX-sg-WIu">
+                                        <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
+                                        <connections>
+                                            <action selector="share:" destination="BYZ-38-t0r" id="oRN-TM-Q3r"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="h4k-37-TH6" secondAttribute="bottom" id="4co-E0-D0C"/>
-                            <constraint firstItem="h4k-37-TH6" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="16" id="6Pj-le-Bty"/>
-                            <constraint firstItem="h4k-37-TH6" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" constant="-60" id="6nZ-1E-LZH"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerX" secondItem="y2R-Cg-MAc" secondAttribute="centerX" constant="-9.5" id="AC5-m1-NAb"/>
-                            <constraint firstItem="h4k-37-TH6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="CKn-3a-EYW"/>
                             <constraint firstAttribute="centerY" secondItem="Oa5-fV-eXG" secondAttribute="centerY" constant="7" id="G7Z-Jn-3zf"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" id="JnR-Oc-3BD"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-16" id="O4o-cK-1Mm"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerY" secondItem="y2R-Cg-MAc" secondAttribute="centerY" constant="0.5" id="V6h-1c-Ke7"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="h4k-37-TH6" secondAttribute="bottom" id="VzW-t4-NZT"/>
                             <constraint firstAttribute="centerX" secondItem="Oa5-fV-eXG" secondAttribute="centerX" constant="7" id="W5O-09-fAt"/>
                             <constraint firstItem="jRg-4c-Ym0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-16" id="YrZ-Hh-9Bw"/>
+                            <constraint firstItem="0uL-Ez-9mw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="aFf-3j-3XX"/>
                             <constraint firstAttribute="centerY" secondItem="oUH-8d-Mgj" secondAttribute="centerY" constant="7.5" id="f74-tt-5qz"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jRg-4c-Ym0" secondAttribute="bottom" id="n6H-EQ-GUc"/>
                             <constraint firstAttribute="centerX" secondItem="oUH-8d-Mgj" secondAttribute="centerX" constant="6" id="pEZ-ZN-yuq"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0uL-Ez-9mw" secondAttribute="bottom" id="yKP-89-K6w"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jRg-4c-Ym0" secondAttribute="trailing" constant="-16" id="yf5-lB-jMx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0uL-Ez-9mw" secondAttribute="trailing" constant="-16" id="zfu-X4-ay5"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="glassesImage" destination="oUH-8d-Mgj" id="FUh-vn-yeB"/>
                         <outlet property="hatImage" destination="y2R-Cg-MAc" id="Pee-aq-jww"/>
                         <outlet property="imageView" destination="jRg-4c-Ym0" id="t3n-Wf-2yQ"/>
-                        <outlet property="menuView" destination="h4k-37-TH6" id="nxm-Dy-rfp"/>
                         <outlet property="moustacheImage" destination="Oa5-fV-eXG" id="ghu-1f-fUB"/>
                     </connections>
                 </viewController>
