@@ -10,12 +10,15 @@ import UIKit
 import MobileCoreServices
 import AssetsLibrary
 
+import AeroGearHttp
+import AeroGearOAuth2
+
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     var imagePicker = UIImagePickerController()
     var newMedia: Bool = true
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var glassesImage: UIImageView!
+    var http: Http!
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -28,6 +31,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.http = Http()
     }
     
     // MARK: - Gesture Action
@@ -65,6 +69,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func hide(sender: AnyObject) {
         let image = imageView.image!
         glassesImage.hidden = false
+       
+    }
+    
+    @IBAction func share(sender: UIButton) {
+        println("Perform photo upload with Google")
+        
+        let googleConfig = GoogleConfig(
+            clientId: "873670803862-g6pjsgt64gvp7r25edgf4154e8sld5nq.apps.googleusercontent.com",
+            scopes:["https://www.googleapis.com/auth/drive"])
+        
+        let gdModule = AccountManager.addGoogleAccount(googleConfig)
+        self.http.authzModule = gdModule
+        self.performUpload("https://www.googleapis.com/upload/drive/v2/files", parameters: self.extractImageAsMultipartParams())
     }
 
     // MARK: - UIImagePickerControllerDelegate
@@ -100,6 +117,49 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         } else {
             
         }
+    }
+    
+    func performUpload(url: String, parameters: [String: AnyObject]?) {
+        self.http.POST(url, parameters: parameters, completionHandler: {(response, error) in
+            if (error != nil) {
+                self.presentAlert("Error", message: error!.localizedDescription)
+            } else {
+                self.presentAlert("Success", message: "Successfully uploaded!")
+            }
+        })
+    }
+    
+    func presentAlert(title: String, message: String) {
+        var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func extractImageAsMultipartParams() -> [String: AnyObject] {
+        let img = self.imageView.image!
+        let accessoriesImg = self.glassesImage.image!
+        /*
+        UIGraphicsBeginImageContextWithOptions(img.size, false, 0)
+        img.drawAtPoint(CGPointMake(0,0))
+         accessoriesImg.drawAtPoint(CGPoint(x: self.glassesImage.center.x, y: self.glassesImage.center.y))
+
+        var outputImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        */
+        imageView.addSubview(glassesImage)
+        
+        UIGraphicsBeginImageContext(imageView.frame.size)
+        imageView.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
+        
+        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.2),
+            name: "image",
+            filename: "incognito_photo",
+            mimeType: "image/jpg")
+        
+        return ["file": multiPartData]
     }
 
 }
