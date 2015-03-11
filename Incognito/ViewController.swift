@@ -17,7 +17,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var imagePicker = UIImagePickerController()
     var newMedia: Bool = true
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var glassesImage: UIImageView!
+    @IBOutlet weak var hatImage: UIImageView!
+    @IBOutlet weak var menuView: UIView!
+
     var http: Http!
     
     required init(coder aDecoder: NSCoder) {
@@ -68,7 +70,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func hide(sender: AnyObject) {
         let image = imageView.image!
-        glassesImage.hidden = false
+        hatImage.hidden = false
        
     }
     
@@ -136,25 +138,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func extractImageAsMultipartParams() -> [String: AnyObject] {
-        let img = self.imageView.image!
-        let accessoriesImg = self.glassesImage.image!
-        /*
-        UIGraphicsBeginImageContextWithOptions(img.size, false, 0)
-        img.drawAtPoint(CGPointMake(0,0))
-         accessoriesImg.drawAtPoint(CGPoint(x: self.glassesImage.center.x, y: self.glassesImage.center.y))
-
-        var outputImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        */
-        imageView.addSubview(glassesImage)
-        
-        UIGraphicsBeginImageContext(imageView.frame.size)
-        imageView.layer.renderInContext(UIGraphicsGetCurrentContext())
+        self.menuView.hidden = true
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
         let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
+        self.menuView.hidden = false
         
-        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.2),
+        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
             name: "image",
             filename: "incognito_photo",
             mimeType: "image/jpg")

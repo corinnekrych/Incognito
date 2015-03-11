@@ -107,8 +107,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="glassesImage" destination="y2R-Cg-MAc" id="I76-2b-JCa"/>
+                        <outlet property="hatImage" destination="y2R-Cg-MAc" id="Pee-aq-jww"/>
                         <outlet property="imageView" destination="jRg-4c-Ym0" id="t3n-Wf-2yQ"/>
+                        <outlet property="menuView" destination="h4k-37-TH6" id="nxm-Dy-rfp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
