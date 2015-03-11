@@ -27,7 +27,7 @@
                                     <rect key="frame" x="88" y="0.0" width="225" height="400"/>
                                 </variation>
                             </imageView>
-                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hat" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-Cg-MAc">
+                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hat_image" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-Cg-MAc">
                                 <rect key="frame" x="212" y="223" width="163" height="121"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -40,7 +40,7 @@
                                     <outletCollection property="gestureRecognizers" destination="Os0-0V-Ues" appends="YES" id="FaK-0H-36R"/>
                                 </connections>
                             </imageView>
-                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="moustache_1" translatesAutoresizingMaskIntoConstraints="NO" id="Oa5-fV-eXG">
+                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mustache_image" translatesAutoresizingMaskIntoConstraints="NO" id="Oa5-fV-eXG">
                                 <rect key="frame" x="173" y="229" width="240" height="128"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -53,7 +53,7 @@
                                     <outletCollection property="gestureRecognizers" destination="rim-2x-x3x" appends="YES" id="93v-A3-Je6"/>
                                 </connections>
                             </imageView>
-                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glasses_1" translatesAutoresizingMaskIntoConstraints="NO" id="oUH-8d-Mgj" userLabel="glasses">
+                            <imageView hidden="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glasses_image" translatesAutoresizingMaskIntoConstraints="NO" id="oUH-8d-Mgj" userLabel="glasses">
                                 <rect key="frame" x="213" y="241" width="162" height="103"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -70,28 +70,28 @@
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
-                                    <barButtonItem systemItem="camera" id="ijF-ut-veV">
+                                    <barButtonItem image="camera_icon" id="ijF-ut-veV">
                                         <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
                                             <action selector="openCamera:" destination="BYZ-38-t0r" id="vUk-uY-7B8"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="X6l-iD-V2G"/>
-                                    <barButtonItem title="Hat" id="vJo-Xo-NcR">
+                                    <barButtonItem image="hat_icon" id="vJo-Xo-NcR">
                                         <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
                                             <action selector="hideShowHat:" destination="BYZ-38-t0r" id="gRI-2n-t8C"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="dze-GU-cs3"/>
-                                    <barButtonItem title="Glasses" id="yHr-0B-Z5V">
+                                    <barButtonItem image="glasses_icon" id="yHr-0B-Z5V">
                                         <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
                                             <action selector="hideShowGlasses:" destination="BYZ-38-t0r" id="pIS-4y-sEt"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="SFf-3W-dVp"/>
-                                    <barButtonItem title="Mustache" id="Y1q-0d-Azy">
+                                    <barButtonItem image="mustache_icon" id="Y1q-0d-Azy">
                                         <color key="tintColor" red="0.84313732389999996" green="0.066666670139999995" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
                                             <action selector="hideShowMoustache:" destination="BYZ-38-t0r" id="o0z-5L-tr1"/>
@@ -185,8 +185,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="glasses_1" width="700" height="234"/>
-        <image name="hat" width="3653" height="3410"/>
-        <image name="moustache_1" width="600" height="194"/>
+        <image name="camera_icon" width="32" height="32"/>
+        <image name="glasses_icon" width="32" height="32"/>
+        <image name="glasses_image" width="700" height="234"/>
+        <image name="hat_icon" width="32" height="32"/>
+        <image name="hat_image" width="3653" height="3410"/>
+        <image name="mustache_icon" width="32" height="32"/>
+        <image name="mustache_image" width="600" height="194"/>
     </resources>
 </document>
