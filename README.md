@@ -28,3 +28,14 @@ On the root directory of the project run:
 pod install
 ```
 and double click on the generated .xcworkspace to open in Xcode.
+
+### UI Flow
+- select an image
+
+![photo](docs/cat_alone.JPG)
+
+- add accessories
+
+![photo with accessories](docs/cat_hat_mustache_glasses.JPG)
+
+- share to google drive
