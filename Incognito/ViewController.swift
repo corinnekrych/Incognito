@@ -18,6 +18,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var newMedia: Bool = true
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var hatImage: UIImageView!
+    @IBOutlet weak var glassesImage: UIImageView!
     @IBOutlet weak var menuView: UIView!
 
     var http: Http!
@@ -38,7 +39,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - Gesture Action
     
-    @IBAction func handleHatMove(recognizer: UIPanGestureRecognizer) {
+    @IBAction func move(recognizer: UIPanGestureRecognizer) {
         //return
         let translation = recognizer.translationInView(self.view)
         recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x,
@@ -46,13 +47,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         recognizer.setTranslation(CGPointZero, inView: self.view)
     }
     
-    @IBAction func pinchHat(recognizer: UIPinchGestureRecognizer) {
+    @IBAction func pinch(recognizer: UIPinchGestureRecognizer) {
         recognizer.view!.transform = CGAffineTransformScale(recognizer.view!.transform,
             recognizer.scale, recognizer.scale)
         recognizer.scale = 1
     }
     
-    @IBAction func rotateHat(recognizer: UIRotationGestureRecognizer) {
+    @IBAction func rotate(recognizer: UIRotationGestureRecognizer) {
         recognizer.view!.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
         recognizer.rotation = 0
 
@@ -60,20 +61,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - Menu Action
     
-    @IBAction func showCamera(sender: AnyObject) {
-        showCamera()
-    }
-    
     @IBAction func openCamera(sender: AnyObject) {
         openPhoto()
     }
     
-    @IBAction func hide(sender: AnyObject) {
+    @IBAction func hideShowHat(sender: AnyObject) {
         let image = imageView.image!
-        hatImage.hidden = false
-       
+        hatImage.hidden = !hatImage.hidden
     }
-    
+    @IBAction func hideShowGlasses(sender: AnyObject) {
+        let image = imageView.image!
+        glassesImage.hidden = !glassesImage.hidden
+    }
     @IBAction func share(sender: UIButton) {
         println("Perform photo upload with Google")
         
@@ -106,19 +105,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
         imagePicker.delegate = self
         presentViewController(imagePicker, animated: true, completion: nil)
-    }
-    
-    private func showCamera() {
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .Camera
-            imagePicker.mediaTypes = NSArray(object: kUTTypeImage) as [AnyObject]
-            
-            self.presentViewController(imagePicker, animated:true, completion:{})
-            newMedia = true
-        } else {
-            
-        }
     }
     
     func performUpload(url: String, parameters: [String: AnyObject]?) {
