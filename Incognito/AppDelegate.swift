@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AeroGearOAuth2
+import OAuthSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,8 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
-        let notification = NSNotification(name: AGAppLaunchedWithURLNotification, object:nil, userInfo:[UIApplicationLaunchOptionsURLKey:url])
-        NSNotificationCenter.defaultCenter().postNotification(notification)
+        println(url)
+        if (url.host == "oauth-callback") {
+            OAuth1Swift.handleOpenURL(url)
+        }
         return true
     }
 

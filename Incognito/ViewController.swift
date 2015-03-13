@@ -10,8 +10,7 @@ import UIKit
 import MobileCoreServices
 import AssetsLibrary
 
-import AeroGearHttp
-import AeroGearOAuth2
+import OAuthSwift
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     var imagePicker = UIImagePickerController()
@@ -21,7 +20,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var glassesImage: UIImageView!
     @IBOutlet weak var moustacheImage: UIImageView!
 
-    var http: Http!
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,7 +32,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.http = Http()
     }
     
     // MARK: - Gesture Action
@@ -80,13 +77,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func share(sender: AnyObject) {
         println("Perform photo upload with Google")
         
-        let googleConfig = GoogleConfig(
-            clientId: "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",
-            scopes:["https://www.googleapis.com/auth/drive"])
-        
-        let gdModule = AccountManager.addGoogleAccount(googleConfig)
-        self.http.authzModule = gdModule
-        self.performUpload("https://www.googleapis.com/upload/drive/v2/files", parameters: self.extractImageAsMultipartParams())
+        doOAuthTwitter()
+
+        //self.performUpload("https://www.googleapis.com/upload/drive/v2/files", parameters: self.extractImageAsMultipartParams())
     }
 
     // MARK: - UIImagePickerControllerDelegate
@@ -105,6 +98,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - Private functions
     
+    func doOAuthTwitter() {
+        let oauthswift = OAuth1Swift(
+            consumerKey:    "aTaSn8tBgQhSKSLotaPWnC0w7",
+            consumerSecret: "fvyCKCECrDXUqBtDGmgbxuXt2fhlsq2Feb18pSvpoF3zWIpoAP",
+            requestTokenUrl: "https://api.twitter.com/oauth/request_token",
+            authorizeUrl:    "https://api.twitter.com/oauth/authorize",
+            accessTokenUrl:  "https://api.twitter.com/oauth/access_token"
+        )
+        
+        //oauthswift.webViewController = WebViewController()
+        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/twitter")!, success: {
+            credential, response in
+            
+            var parameters =  [String: AnyObject]()
+            parameters["status"] = "hello"
+            oauthswift.client.post("https://api.twitter.com/1.1/statuses/update.json", parameters: parameters,
+                success: {
+                    data, response in
+                    let jsonDict: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
+                    println(jsonDict)
+                }, failure: {(error:NSError!) -> Void in
+                    println(error)
+            })
+            
+            // failure in authz
+            }, failure: {(error:NSError!) -> Void in
+                println(error.localizedDescription)
+            }
+        )
+    }
+    
+    func showAlertView(title: String, message: String) {
+        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     private func openPhoto() {
         imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
         imagePicker.delegate = self
@@ -112,13 +142,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func performUpload(url: String, parameters: [String: AnyObject]?) {
-        self.http.POST(url, parameters: parameters, completionHandler: {(response, error) in
-            if (error != nil) {
-                self.presentAlert("Error", message: error!.localizedDescription)
-            } else {
-                self.presentAlert("Success", message: "Successfully uploaded!")
-            }
-        })
+//        self.http.POST(url, parameters: parameters, completionHandler: {(response, error) in
+//            if (error != nil) {
+//                self.presentAlert("Error", message: error!.localizedDescription)
+//            } else {
+//                self.presentAlert("Success", message: "Successfully uploaded!")
+//            }
+//        })
     }
     
     func presentAlert(title: String, message: String) {
@@ -126,21 +156,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
-    func extractImageAsMultipartParams() -> [String: AnyObject] {
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
-        let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
-
-        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
-            name: "image",
-            filename: "incognito_photo",
-            mimeType: "image/jpg")
-        
-        return ["file": multiPartData]
-    }
+//    
+//    func extractImageAsMultipartParams() -> [String: AnyObject] {
+//        UIGraphicsBeginImageContext(self.view.frame.size)
+//        self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+//        let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
+//
+//        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
+//            name: "image",
+//            filename: "incognito_photo",
+//            mimeType: "image/jpg")
+//        
+//        return ["file": multiPartData]
+//    }
 
 }
 
