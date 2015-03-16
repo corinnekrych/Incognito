@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07AE7F29BB38236F9557BF0B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 516194707565AA82C2DEA6CF /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		02307D9441FB250A408FA29D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E992132CAFEB34A31D9DCE34 /* libPods.a */; };
 		48BD2F111AA1F786007BE021 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD2F101AA1F786007BE021 /* AppDelegate.swift */; };
 		48BD2F131AA1F786007BE021 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD2F121AA1F786007BE021 /* ViewController.swift */; };
 		48BD2F161AA1F786007BE021 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48BD2F141AA1F786007BE021 /* Main.storyboard */; };
@@ -28,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		44EB8BAB984B53795B866F63 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		4844B60F1AB70C5B002BB77C /* Incognito-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Incognito-Bridging-Header.h"; sourceTree = "<group>"; };
 		48BD2F0B1AA1F786007BE021 /* Incognito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Incognito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48BD2F0F1AA1F786007BE021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48BD2F101AA1F786007BE021 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,8 +39,8 @@
 		48BD2F201AA1F786007BE021 /* IncognitoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IncognitoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48BD2F251AA1F786007BE021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48BD2F261AA1F786007BE021 /* IncognitoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncognitoTests.swift; sourceTree = "<group>"; };
-		516194707565AA82C2DEA6CF /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B4FC8A907A4A48980DF3093 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E992132CAFEB34A31D9DCE34 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07AE7F29BB38236F9557BF0B /* Pods.framework in Frameworks */,
+				02307D9441FB250A408FA29D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +65,7 @@
 		36C87A98DA801CC1CE8DAB25 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				516194707565AA82C2DEA6CF /* Pods.framework */,
+				E992132CAFEB34A31D9DCE34 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -86,6 +87,7 @@
 				48BD2F0C1AA1F786007BE021 /* Products */,
 				38BF5CFAF8CFED98F217ADD8 /* Pods */,
 				36C87A98DA801CC1CE8DAB25 /* Frameworks */,
+				4844B60F1AB70C5B002BB77C /* Incognito-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,7 +149,6 @@
 				48BD2F071AA1F786007BE021 /* Sources */,
 				48BD2F081AA1F786007BE021 /* Frameworks */,
 				48BD2F091AA1F786007BE021 /* Resources */,
-				96EC564ADEF81A9A4D82D9E3 /* Embed Pods Frameworks */,
 				57078050EFAFDF6E3BE21007 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -249,21 +250,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		96EC564ADEF81A9A4D82D9E3 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F188FAFF4D380B66E708529B /* Check Pods Manifest.lock */ = {
@@ -415,11 +401,14 @@
 			baseConfigurationReference = 44EB8BAB984B53795B866F63 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Incognito/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Incognito-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -429,11 +418,13 @@
 			baseConfigurationReference = 6B4FC8A907A4A48980DF3093 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Incognito/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Incognito-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
