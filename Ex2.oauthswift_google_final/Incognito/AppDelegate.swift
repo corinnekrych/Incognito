@@ -45,8 +45,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
         println(url)
         if (url.host == "oauth-callback") {
-            OAuth1Swift.handleOpenURL(url)
+            if url.path!.hasPrefix("/twitter") {
+                OAuth1Swift.handleOpenURL(url)
+            }
         }
+        else {
+            OAuth2Swift.handleOpenURL(url)
+         }
         return true
     }
 

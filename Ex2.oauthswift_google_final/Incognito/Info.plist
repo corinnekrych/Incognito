@@ -25,6 +25,7 @@
             <string></string>
             <key>CFBundleURLSchemes</key>
             <array>
+                <string>com.raywenderlich.Incognito</string>
                 <string>oauth-swift</string>
             </array>
         </dict>

@@ -20,7 +20,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var glassesImage: UIImageView!
     @IBOutlet weak var moustacheImage: UIImageView!
 
-    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -76,10 +75,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func share(sender: AnyObject) {
         println("Perform photo upload with Google")
-        
-        doOAuthTwitter()
-
-        //self.performUpload("https://www.googleapis.com/upload/drive/v2/files", parameters: self.extractImageAsMultipartParams())
+        doOAuthGoogle()
     }
 
     // MARK: - UIImagePickerControllerDelegate
@@ -98,37 +94,33 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - Private functions
     
-    func doOAuthTwitter() {
-        let oauthswift = OAuth1Swift(
-            consumerKey:    "aTaSn8tBgQhSKSLotaPWnC0w7",
-            consumerSecret: "fvyCKCECrDXUqBtDGmgbxuXt2fhlsq2Feb18pSvpoF3zWIpoAP",
-            requestTokenUrl: "https://api.twitter.com/oauth/request_token",
-            authorizeUrl:    "https://api.twitter.com/oauth/authorize",
-            accessTokenUrl:  "https://api.twitter.com/oauth/access_token"
+    
+    func doOAuthGoogle(){
+        let oauthswift = OAuth2Swift(
+            consumerKey:    "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",
+            consumerSecret: "fokC4jwc5AJZK5ZyG47X5QMG",
+            authorizeUrl:   "https://accounts.google.com/o/oauth2/auth",
+            accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
+            responseType:   "code"
         )
-        
-        //oauthswift.webViewController = WebViewController()
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/twitter")!, success: {
+        oauthswift.authorizeWithCallbackURL( NSURL(string: "com.raywenderlich.Incognito:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/drive", state: "", success: {
             credential, response in
             
-            var parameters =  [String: AnyObject]()
-            parameters["status"] = "hello you"
-            parameters["media_ids"] = "471592142565957632"
-            oauthswift.client.post("https://api.twitter.com/1.1/statuses/update.json", parameters: parameters,
+            var parameters =  Dictionary<String, AnyObject>()
+            oauthswift.client.postImage("https://www.googleapis.com/upload/drive/v2/files", parameters: parameters, image: self.snapshot(),
                 success: {
                     data, response in
                     let jsonDict: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
-                    println(jsonDict)
+                    println("SUCCESS \(jsonDict)")
                 }, failure: {(error:NSError!) -> Void in
                     println(error)
             })
             
-            // failure in authz
             }, failure: {(error:NSError!) -> Void in
-                println(error.localizedDescription)
-            }
-        )
+                println(":::ERROR:::\(error.localizedDescription)")
+        })
     }
+    
     
     func showAlertView(title: String, message: String) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
@@ -142,36 +134,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    func performUpload(url: String, parameters: [String: AnyObject]?) {
-//        self.http.POST(url, parameters: parameters, completionHandler: {(response, error) in
-//            if (error != nil) {
-//                self.presentAlert("Error", message: error!.localizedDescription)
-//            } else {
-//                self.presentAlert("Success", message: "Successfully uploaded!")
-//            }
-//        })
-    }
-    
     func presentAlert(title: String, message: String) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-//    
-//    func extractImageAsMultipartParams() -> [String: AnyObject] {
-//        UIGraphicsBeginImageContext(self.view.frame.size)
-//        self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
-//        let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
-//
-//        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
-//            name: "image",
-//            filename: "incognito_photo",
-//            mimeType: "image/jpg")
-//        
-//        return ["file": multiPartData]
-//    }
+   
+    func snapshot() -> NSData {
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
+        return  UIImageJPEGRepresentation(fullScreenshot, 0.5)
+    }
 
 }
 
