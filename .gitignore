@@ -22,9 +22,5 @@ DerivedData
 **/*.xcuserstate
 **/*.xcuserdata
 
-# CocoaPods
-Podfile.lock
-Pods/
-
 #Docset/AppleDoc
 */Docset/*
