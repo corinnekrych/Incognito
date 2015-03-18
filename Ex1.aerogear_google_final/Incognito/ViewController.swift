@@ -79,32 +79,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func share(sender: AnyObject) {
         
         let googleConfig = GoogleConfig(
-            clientId: "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",
-            scopes:["https://www.googleapis.com/auth/drive"])
-        
-        let gdModule =  OAuth2Module(config: googleConfig)
-        self.http.authzModule = gdModule
-        
-        gdModule.requestAccess { (response:AnyObject?, error:NSError?) -> Void in
-            let multipartData = MultiPartData(data: self.snapshot(),
-                name: "image",
-                filename: "incognito_photo",
-                mimeType: "image/jpg")
-            
-            let multipartArray =  ["file": multipartData]
-            
-            self.http.POST("https://www.googleapis.com/upload/drive/v2/files", parameters: multipartArray,
-                completionHandler: {(response, error) in
-                    if (error != nil) {
-                        self.presentAlert("Error", message: error!.localizedDescription)
-                    } else {
-                        self.presentAlert("Success", message: "Successfully uploaded!")
-                    }
-            })
-        }
-        
- /*
-        let googleConfig = GoogleConfig(
             clientId: "<YOUR_GOOGLE_CLIENT_ID>",
             scopes:["https://www.googleapis.com/auth/drive"])
         
@@ -127,7 +101,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     self.presentAlert("Success", message: "Successfully uploaded!")
                 }
         })
-*/
     }
     
     // MARK: - UIImagePickerControllerDelegate
