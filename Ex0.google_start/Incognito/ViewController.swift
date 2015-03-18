@@ -15,7 +15,6 @@ import AeroGearOAuth2
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     var imagePicker = UIImagePickerController()
-    var newMedia: Bool = true
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var hatImage: UIImageView!
     @IBOutlet weak var glassesImage: UIImageView!
@@ -78,15 +77,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func share(sender: AnyObject) {
-        println("Perform photo upload with Google")
-        
+       
         let googleConfig = GoogleConfig(
             clientId: "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",
             scopes:["https://www.googleapis.com/auth/drive"])
         
         let gdModule = AccountManager.addGoogleAccount(googleConfig)
         self.http.authzModule = gdModule
-        self.performUpload("https://www.googleapis.com/upload/drive/v2/files", parameters: self.extractImageAsMultipartParams())
+        
+        let multipartData = MultiPartData(data: self.snapshot(),
+            name: "image",
+            filename: "incognito_photo",
+            mimeType: "image/jpg")
+        
+        let multipartArray =  ["file": multipartData]
+        
+        self.http.POST("https://www.googleapis.com/upload/drive/v2/files",
+                       parameters: multipartArray,
+                       completionHandler: {(response, error) in
+            if (error != nil) {
+                self.presentAlert("Error", message: error!.localizedDescription)
+            } else {
+                self.presentAlert("Success", message: "Successfully uploaded!")
+            }
+        })
     }
 
     // MARK: - UIImagePickerControllerDelegate
@@ -111,35 +125,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    func performUpload(url: String, parameters: [String: AnyObject]?) {
-        self.http.POST(url, parameters: parameters, completionHandler: {(response, error) in
-            if (error != nil) {
-                self.presentAlert("Error", message: error!.localizedDescription)
-            } else {
-                self.presentAlert("Success", message: "Successfully uploaded!")
-            }
-        })
-    }
-    
     func presentAlert(title: String, message: String) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func extractImageAsMultipartParams() -> [String: AnyObject] {
+    func snapshot() -> NSData {
         UIGraphicsBeginImageContext(self.view.frame.size)
         self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
         let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)
-
-        let multiPartData = MultiPartData(data: UIImageJPEGRepresentation(fullScreenshot, 0.5),
-            name: "image",
-            filename: "incognito_photo",
-            mimeType: "image/jpg")
-        
-        return ["file": multiPartData]
+        return UIImageJPEGRepresentation(fullScreenshot, 0.5)
     }
 
 }
