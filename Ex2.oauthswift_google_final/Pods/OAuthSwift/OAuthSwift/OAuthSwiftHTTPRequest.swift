@@ -20,7 +20,7 @@ public class OAuthSwiftHTTPRequest: NSObject, NSURLConnectionDataDelegate {
     var HTTPBodyMultipart: NSData?
     var contentTypeMultipart: String?
     
-    public var request: NSMutableURLRequest?
+    var request: NSMutableURLRequest?
     var connection: NSURLConnection!
     
     var headers: Dictionary<String, String>

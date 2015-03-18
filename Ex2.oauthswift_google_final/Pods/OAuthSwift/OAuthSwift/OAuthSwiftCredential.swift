@@ -15,6 +15,7 @@ public class OAuthSwiftCredential: NSObject, NSCoding {
     public var oauth_token_secret: String = String()
     var oauth_verifier: String = String()
     public var oauth2 = false
+    
     override init(){
         
     }

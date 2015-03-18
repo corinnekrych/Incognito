@@ -4,4 +4,4 @@ xcodeproj 'Incognito.xcodeproj'
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'OAuthSwift', '0.3.1'
+pod 'OAuthSwift', :git => 'https://github.com/corinnekrych/OAuthSwift', :branch => '0.3.1.multipart.upload'
