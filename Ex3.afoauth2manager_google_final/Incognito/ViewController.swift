@@ -117,13 +117,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         constructingBodyWithBlock: { (form: AFMultipartFormData!) -> Void in
                             form.appendPartWithFileData(self.screenshot(), name:"name", fileName:"fileName", mimeType:"image/jpeg")
                         }, success: { (op:AFHTTPRequestOperation!, obj:AnyObject!) -> Void in
-                            println("SUCCESS")
-                        }, failure: { (op: AFHTTPRequestOperation!, err:NSError!) -> Void in
-                            println("FAILURE")
+                            self.presentAlert("Success", message: "Successfully uploaded!")
+                        }, failure: { (op: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                            self.presentAlert("Error", message: error!.localizedDescription)
                     })
                     
                     }) { (error: NSError!) -> Void in
-                        println("::ERROR::\(error)")
+                        self.presentAlert("Error", message: error!.localizedDescription)
                 }
             })
             isObserved = true
@@ -166,7 +166,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.delegate = self
         presentViewController(imagePicker, animated: true, completion: nil)
     }
-    
 
     
     func presentAlert(title: String, message: String) {

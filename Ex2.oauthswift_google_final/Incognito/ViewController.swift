@@ -14,7 +14,6 @@ import OAuthSwift
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     var imagePicker = UIImagePickerController()
-    var newMedia: Bool = true
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var hatImage: UIImageView!
     @IBOutlet weak var glassesImage: UIImageView!
@@ -52,7 +51,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func rotate(recognizer: UIRotationGestureRecognizer) {
         recognizer.view!.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
         recognizer.rotation = 0
-
     }
     
     // MARK: - Menu Action
@@ -74,8 +72,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func share(sender: AnyObject) {
-        println("Perform photo upload with Google")
-        doOAuthGoogle()
+        let oauthswift = OAuth2Swift(
+            consumerKey:    "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",
+            consumerSecret: "fokC4jwc5AJZK5ZyG47X5QMG",
+            authorizeUrl:   "https://accounts.google.com/o/oauth2/auth",
+            accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
+            responseType:   "code"
+        )
+        oauthswift.authorizeWithCallbackURL( NSURL(string: "com.raywenderlich.Incognito:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/drive", state: "", success: {
+            credential, response in
+            
+            var parameters =  Dictionary<String, AnyObject>()
+            oauthswift.client.postImage("https://www.googleapis.com/upload/drive/v2/files", parameters: parameters, image: self.snapshot(),
+                success: {
+                    data, response in
+                    let jsonDict: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
+                    self.presentAlert("Success", message: "Successfully uploaded!")
+                }, failure: {(error:NSError!) -> Void in
+                    self.presentAlert("Error", message: error!.localizedDescription)
+            })
+            
+            }, failure: {(error:NSError!) -> Void in
+                self.presentAlert("Error", message: error!.localizedDescription)
+        })
     }
 
     // MARK: - UIImagePickerControllerDelegate
@@ -93,34 +112,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     // MARK: - Private functions
-    
-    
-    func doOAuthGoogle(){
-        let oauthswift = OAuth2Swift(
-            consumerKey:    "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",
-            consumerSecret: "fokC4jwc5AJZK5ZyG47X5QMG",
-            authorizeUrl:   "https://accounts.google.com/o/oauth2/auth",
-            accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
-            responseType:   "code"
-        )
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "com.raywenderlich.Incognito:/oauth2Callback")!, scope: "https://www.googleapis.com/auth/drive", state: "", success: {
-            credential, response in
-            
-            var parameters =  Dictionary<String, AnyObject>()
-            oauthswift.client.postImage("https://www.googleapis.com/upload/drive/v2/files", parameters: parameters, image: self.snapshot(),
-                success: {
-                    data, response in
-                    let jsonDict: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
-                    println("SUCCESS \(jsonDict)")
-                }, failure: {(error:NSError!) -> Void in
-                    println(error)
-            })
-            
-            }, failure: {(error:NSError!) -> Void in
-                println(":::ERROR:::\(error.localizedDescription)")
-        })
-    }
-    
     
     func showAlertView(title: String, message: String) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
