@@ -1,0 +1,20 @@
+PODS:
+  - OAuthSwift (0.3.1)
+
+DEPENDENCIES:
+  - OAuthSwift (from `https://github.com/corinnekrych/OAuthSwift`, branch `0.3.1.multipart.upload`)
+
+EXTERNAL SOURCES:
+  OAuthSwift:
+    :branch: 0.3.1.multipart.upload
+    :git: https://github.com/corinnekrych/OAuthSwift
+
+CHECKOUT OPTIONS:
+  OAuthSwift:
+    :commit: 22f04d397596810460403ae31863f155bd9a4f0b
+    :git: https://github.com/corinnekrych/OAuthSwift
+
+SPEC CHECKSUMS:
+  OAuthSwift: 276d3d3948f750e60852d3b7003c55fd31f6a651
+
+COCOAPODS: 0.36.0

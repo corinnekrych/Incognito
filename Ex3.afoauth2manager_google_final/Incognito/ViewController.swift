@@ -24,7 +24,7 @@ extension String {
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     var imagePicker = UIImagePickerController()
-    var newMedia: Bool = true
+
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var hatImage: UIImageView!
     @IBOutlet weak var glassesImage: UIImageView!

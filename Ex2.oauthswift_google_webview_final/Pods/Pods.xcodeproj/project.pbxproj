@@ -1,0 +1,555 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0D2786E9AC311F8FE844CC8B /* OAuthSwiftClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07D7A3B94F477B5B56DC46D /* OAuthSwiftClient.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		389AE610150843E6E65A1699 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D07F8BE95B3F38CC99DB168 /* Utils.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39D0A660FF73D40FEA31440B /* OAuthSwiftHTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80566A2085C79BE71C97F8 /* OAuthSwiftHTTPRequest.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3A8A1974E29EFA80057A4929 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485BA56A4E3A920E8BDCDF5E /* Foundation.framework */; };
+		3EF531ECA5E8E77C96964EA2 /* Pods-OAuthSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E202B06B1C542484259BED1 /* Pods-OAuthSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		427B94150D1FA324AEF94386 /* Dictionary+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E171B1DAA3B5AB4E4E22E /* Dictionary+OAuthSwift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		46E8E32DB3E9C2C77F94FD8D /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C5F53A9DA49B8BC216E971 /* SHA1.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		61254A491138620656792B55 /* NSData+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6DC55CFDC3025ABD0C7C92 /* NSData+OAuthSwift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6C46DA4734A2A6DC0A2E6528 /* Pods-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BD3AD67DC9C989C915C9F03E /* Pods-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70FE060261243930946B4900 /* OAuth1Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A5433947BE2346CAEAF86F /* OAuth1Swift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7908C2A7928066F1263DFBA1 /* Pods-OAuthSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF6047C36244DDF71F2A05 /* Pods-OAuthSwift-dummy.m */; };
+		7A81ECEF9CC6A81CB4C6BEA5 /* OAuth2Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C0FB6B1E11E4CC2016618F /* OAuth2Swift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		808BAC560E0D264CEEA52FA9 /* OAuthWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01FC5AA51AD5A10E4348E09 /* OAuthWebViewController.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8423559AB37FE8B8833CDBB5 /* String+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D63264C2BCD12B79F965C1E /* String+OAuthSwift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A5821864DE7CB1ED420196AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485BA56A4E3A920E8BDCDF5E /* Foundation.framework */; };
+		AE806397E7BB824338EF8252 /* Int+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D8878CDAB7F26B95B03E06 /* Int+OAuthSwift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C3155DADA4F70AD1D0365ECD /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A13C250E5AB60DEB7E45696C /* Pods-dummy.m */; };
+		DD47D0AB804F674F55CE4330 /* NSURL+OAuthSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFCBE5A8FA8D39E2C9AA5B5 /* NSURL+OAuthSwift.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E95E2F65627DCB49BAF79C9E /* OAuthSwiftCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44FEDF1E6D6E0022D5050E8 /* OAuthSwiftCredential.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		F08D564EDD6670AC03F2C062 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DC077B31B445C7D2A6E19D /* HMAC.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7F8E5E6CF28584B8F2D4AA57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F12ABB1999626EBFA5A5879 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB097E076F40FAB244E09813;
+			remoteInfo = "Pods-OAuthSwift";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E202B06B1C542484259BED1 /* Pods-OAuthSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OAuthSwift-umbrella.h"; sourceTree = "<group>"; };
+		15D8878CDAB7F26B95B03E06 /* Int+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Int+OAuthSwift.swift"; path = "OAuthSwift/Int+OAuthSwift.swift"; sourceTree = "<group>"; };
+		3083AE5601886571C23ACD76 /* Pods.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Pods.modulemap; sourceTree = "<group>"; };
+		32AE49466206FA29EE99D09F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3473D0CAF34296015244FD56 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		39A5433947BE2346CAEAF86F /* OAuth1Swift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth1Swift.swift; path = OAuthSwift/OAuth1Swift.swift; sourceTree = "<group>"; };
+		3A80566A2085C79BE71C97F8 /* OAuthSwiftHTTPRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftHTTPRequest.swift; path = OAuthSwift/OAuthSwiftHTTPRequest.swift; sourceTree = "<group>"; };
+		445527A52C47044DBE1638F8 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E495695F76F9684A8D72BA /* Pods-OAuthSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-OAuthSwift.modulemap"; sourceTree = "<group>"; };
+		485BA56A4E3A920E8BDCDF5E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4ECB56ED07BD5EB4763F2103 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		5A6DC55CFDC3025ABD0C7C92 /* NSData+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSData+OAuthSwift.swift"; path = "OAuthSwift/NSData+OAuthSwift.swift"; sourceTree = "<group>"; };
+		5AC8B59C1E039E84725DD61F /* OAuthSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OAuthSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C8A63FCC8FCD0FEA3582E5A /* Pods-OAuthSwift-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OAuthSwift-Private.xcconfig"; sourceTree = "<group>"; };
+		6DFCBE5A8FA8D39E2C9AA5B5 /* NSURL+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSURL+OAuthSwift.swift"; path = "OAuthSwift/NSURL+OAuthSwift.swift"; sourceTree = "<group>"; };
+		72551ABAABC5E202E70436C3 /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		7D07F8BE95B3F38CC99DB168 /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = OAuthSwift/Utils.swift; sourceTree = "<group>"; };
+		7D63264C2BCD12B79F965C1E /* String+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+OAuthSwift.swift"; path = "OAuthSwift/String+OAuthSwift.swift"; sourceTree = "<group>"; };
+		8BB0E855870782381DDD4279 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		92C0FB6B1E11E4CC2016618F /* OAuth2Swift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuth2Swift.swift; path = OAuthSwift/OAuth2Swift.swift; sourceTree = "<group>"; };
+		A13C250E5AB60DEB7E45696C /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		A19CB3BAE635FBC3B2772797 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		A4C5F53A9DA49B8BC216E971 /* SHA1.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA1.swift; path = OAuthSwift/SHA1.swift; sourceTree = "<group>"; };
+		A6DC077B31B445C7D2A6E19D /* HMAC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HMAC.swift; path = OAuthSwift/HMAC.swift; sourceTree = "<group>"; };
+		AA9D100301F63F12800D4F32 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		B44FEDF1E6D6E0022D5050E8 /* OAuthSwiftCredential.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftCredential.swift; path = OAuthSwift/OAuthSwiftCredential.swift; sourceTree = "<group>"; };
+		BD3AD67DC9C989C915C9F03E /* Pods-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-umbrella.h"; sourceTree = "<group>"; };
+		C07D7A3B94F477B5B56DC46D /* OAuthSwiftClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthSwiftClient.swift; path = OAuthSwift/OAuthSwiftClient.swift; sourceTree = "<group>"; };
+		C5191481AE3A57EA2C3CC81E /* Pods-OAuthSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OAuthSwift-prefix.pch"; sourceTree = "<group>"; };
+		C9EF6047C36244DDF71F2A05 /* Pods-OAuthSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OAuthSwift-dummy.m"; sourceTree = "<group>"; };
+		D01FC5AA51AD5A10E4348E09 /* OAuthWebViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OAuthWebViewController.swift; path = OAuthSwift/OAuthWebViewController.swift; sourceTree = "<group>"; };
+		D0FBD54975FE1FDDDBB6DA56 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		E3878F7FF3CB3BF5B8D3F863 /* Pods-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-frameworks.sh"; sourceTree = "<group>"; };
+		E41E171B1DAA3B5AB4E4E22E /* Dictionary+OAuthSwift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Dictionary+OAuthSwift.swift"; path = "OAuthSwift/Dictionary+OAuthSwift.swift"; sourceTree = "<group>"; };
+		E5EB16C9EDE33A1C69F93819 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		ED514F29E482C72ED9C70913 /* Pods-OAuthSwift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OAuthSwift.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		36A1DDFD72F4CA8B034D1B18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A8A1974E29EFA80057A4929 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5F1BC5A5E61A406366759FCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5821864DE7CB1ED420196AF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04B6F876C1B950B94EC29711 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				485BA56A4E3A920E8BDCDF5E /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		261586C17865556BF076429F /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8F6193CF2884BC4C47DCFE74 /* Pods */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		2D729247622CBC3882DD41CE /* OAuthSwift */ = {
+			isa = PBXGroup;
+			children = (
+				E41E171B1DAA3B5AB4E4E22E /* Dictionary+OAuthSwift.swift */,
+				A6DC077B31B445C7D2A6E19D /* HMAC.swift */,
+				15D8878CDAB7F26B95B03E06 /* Int+OAuthSwift.swift */,
+				5A6DC55CFDC3025ABD0C7C92 /* NSData+OAuthSwift.swift */,
+				6DFCBE5A8FA8D39E2C9AA5B5 /* NSURL+OAuthSwift.swift */,
+				39A5433947BE2346CAEAF86F /* OAuth1Swift.swift */,
+				92C0FB6B1E11E4CC2016618F /* OAuth2Swift.swift */,
+				C07D7A3B94F477B5B56DC46D /* OAuthSwiftClient.swift */,
+				B44FEDF1E6D6E0022D5050E8 /* OAuthSwiftCredential.swift */,
+				3A80566A2085C79BE71C97F8 /* OAuthSwiftHTTPRequest.swift */,
+				D01FC5AA51AD5A10E4348E09 /* OAuthWebViewController.swift */,
+				A4C5F53A9DA49B8BC216E971 /* SHA1.swift */,
+				7D63264C2BCD12B79F965C1E /* String+OAuthSwift.swift */,
+				7D07F8BE95B3F38CC99DB168 /* Utils.swift */,
+				81467E94C6B5BDA874B0EE2F /* Support Files */,
+			);
+			path = OAuthSwift;
+			sourceTree = "<group>";
+		};
+		81467E94C6B5BDA874B0EE2F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				32AE49466206FA29EE99D09F /* Info.plist */,
+				47E495695F76F9684A8D72BA /* Pods-OAuthSwift.modulemap */,
+				ED514F29E482C72ED9C70913 /* Pods-OAuthSwift.xcconfig */,
+				6C8A63FCC8FCD0FEA3582E5A /* Pods-OAuthSwift-Private.xcconfig */,
+				C9EF6047C36244DDF71F2A05 /* Pods-OAuthSwift-dummy.m */,
+				C5191481AE3A57EA2C3CC81E /* Pods-OAuthSwift-prefix.pch */,
+				0E202B06B1C542484259BED1 /* Pods-OAuthSwift-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-OAuthSwift";
+			sourceTree = "<group>";
+		};
+		8F6193CF2884BC4C47DCFE74 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8BB0E855870782381DDD4279 /* Info.plist */,
+				3083AE5601886571C23ACD76 /* Pods.modulemap */,
+				3473D0CAF34296015244FD56 /* Pods-acknowledgements.markdown */,
+				D0FBD54975FE1FDDDBB6DA56 /* Pods-acknowledgements.plist */,
+				A13C250E5AB60DEB7E45696C /* Pods-dummy.m */,
+				72551ABAABC5E202E70436C3 /* Pods-environment.h */,
+				E3878F7FF3CB3BF5B8D3F863 /* Pods-frameworks.sh */,
+				AA9D100301F63F12800D4F32 /* Pods-resources.sh */,
+				BD3AD67DC9C989C915C9F03E /* Pods-umbrella.h */,
+				A19CB3BAE635FBC3B2772797 /* Pods.debug.xcconfig */,
+				E5EB16C9EDE33A1C69F93819 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			path = "Target Support Files/Pods";
+			sourceTree = "<group>";
+		};
+		9B3069ECC4A0273A031E4149 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2D729247622CBC3882DD41CE /* OAuthSwift */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DD97451D4738D849135E722A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04B6F876C1B950B94EC29711 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F39AE3EE4DFE5B53FE5AE492 = {
+			isa = PBXGroup;
+			children = (
+				4ECB56ED07BD5EB4763F2103 /* Podfile */,
+				DD97451D4738D849135E722A /* Frameworks */,
+				9B3069ECC4A0273A031E4149 /* Pods */,
+				F86D4A1BBD67D311877614EA /* Products */,
+				261586C17865556BF076429F /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		F86D4A1BBD67D311877614EA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5AC8B59C1E039E84725DD61F /* OAuthSwift.framework */,
+				445527A52C47044DBE1638F8 /* Pods.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		852C572407ABA3430CC29782 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C46DA4734A2A6DC0A2E6528 /* Pods-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAED3E27FB81326643AC18E4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EF531ECA5E8E77C96964EA2 /* Pods-OAuthSwift-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3A68BFD00499476088430C22 /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 97D5ECBB67B465356F5EC640 /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				B83F862A9DC8CC2EEF3C3B69 /* Sources */,
+				36A1DDFD72F4CA8B034D1B18 /* Frameworks */,
+				852C572407ABA3430CC29782 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EF1882375ABDC361208B0A23 /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = 445527A52C47044DBE1638F8 /* Pods.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AB097E076F40FAB244E09813 /* Pods-OAuthSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 578EA351F436579DA315385C /* Build configuration list for PBXNativeTarget "Pods-OAuthSwift" */;
+			buildPhases = (
+				411A1C4536A7AF0ABECFD4ED /* Sources */,
+				5F1BC5A5E61A406366759FCE /* Frameworks */,
+				EAED3E27FB81326643AC18E4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-OAuthSwift";
+			productName = "Pods-OAuthSwift";
+			productReference = 5AC8B59C1E039E84725DD61F /* OAuthSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3F12ABB1999626EBFA5A5879 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = 7042186A334ACDA98F495574 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F39AE3EE4DFE5B53FE5AE492;
+			productRefGroup = F86D4A1BBD67D311877614EA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A68BFD00499476088430C22 /* Pods */,
+				AB097E076F40FAB244E09813 /* Pods-OAuthSwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		411A1C4536A7AF0ABECFD4ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				427B94150D1FA324AEF94386 /* Dictionary+OAuthSwift.swift in Sources */,
+				F08D564EDD6670AC03F2C062 /* HMAC.swift in Sources */,
+				AE806397E7BB824338EF8252 /* Int+OAuthSwift.swift in Sources */,
+				61254A491138620656792B55 /* NSData+OAuthSwift.swift in Sources */,
+				DD47D0AB804F674F55CE4330 /* NSURL+OAuthSwift.swift in Sources */,
+				70FE060261243930946B4900 /* OAuth1Swift.swift in Sources */,
+				7A81ECEF9CC6A81CB4C6BEA5 /* OAuth2Swift.swift in Sources */,
+				0D2786E9AC311F8FE844CC8B /* OAuthSwiftClient.swift in Sources */,
+				E95E2F65627DCB49BAF79C9E /* OAuthSwiftCredential.swift in Sources */,
+				39D0A660FF73D40FEA31440B /* OAuthSwiftHTTPRequest.swift in Sources */,
+				808BAC560E0D264CEEA52FA9 /* OAuthWebViewController.swift in Sources */,
+				7908C2A7928066F1263DFBA1 /* Pods-OAuthSwift-dummy.m in Sources */,
+				46E8E32DB3E9C2C77F94FD8D /* SHA1.swift in Sources */,
+				8423559AB37FE8B8833CDBB5 /* String+OAuthSwift.swift in Sources */,
+				389AE610150843E6E65A1699 /* Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B83F862A9DC8CC2EEF3C3B69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3155DADA4F70AD1D0365ECD /* Pods-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EF1882375ABDC361208B0A23 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-OAuthSwift";
+			target = AB097E076F40FAB244E09813 /* Pods-OAuthSwift */;
+			targetProxy = 7F8E5E6CF28584B8F2D4AA57 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0DF39FB01B2B73D3D5D44CA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A19CB3BAE635FBC3B2772797 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods/Pods.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2C01DD614B4F1DDDBF5633E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C8A63FCC8FCD0FEA3582E5A /* Pods-OAuthSwift-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-OAuthSwift/Pods-OAuthSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-OAuthSwift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-OAuthSwift/Pods-OAuthSwift.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = OAuthSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		428C3566E2EBBC3FCE6339DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5EB16C9EDE33A1C69F93819 /* Pods.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods/Pods.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		6ECCA4289E8EB63637D0AEEB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		9E8A374FADB771199B4328A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B4F2832B50DE7835D98520D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C8A63FCC8FCD0FEA3582E5A /* Pods-OAuthSwift-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-OAuthSwift/Pods-OAuthSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-OAuthSwift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-OAuthSwift/Pods-OAuthSwift.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = OAuthSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		578EA351F436579DA315385C /* Build configuration list for PBXNativeTarget "Pods-OAuthSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C01DD614B4F1DDDBF5633E5 /* Debug */,
+				B4F2832B50DE7835D98520D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7042186A334ACDA98F495574 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6ECCA4289E8EB63637D0AEEB /* Debug */,
+				9E8A374FADB771199B4328A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		97D5ECBB67B465356F5EC640 /* Build configuration list for PBXNativeTarget "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0DF39FB01B2B73D3D5D44CA4 /* Debug */,
+				428C3566E2EBBC3FCE6339DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3F12ABB1999626EBFA5A5879 /* Project object */;
+}
