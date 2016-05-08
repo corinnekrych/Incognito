@@ -2,6 +2,6 @@ source 'https://github.com/CocoaPods/Specs.git'
  
 xcodeproj 'Incognito.xcodeproj'
 platform :ios, '8.0'
-use_frameworks!                   # [1] use dynamic frameworks
+use_frameworks!
  
-pod 'AeroGearOAuth2', '0.3.0'     # [2] use AeroGearOAuth2 0.3.0 version
+pod 'AeroGearOAuth2', :git => 'https://github.com/aerogear/aerogear-ios-oauth2.git'

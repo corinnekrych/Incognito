@@ -90,10 +90,10 @@ public class Http {
     /**
     Initialize an HTTP object.
     
-    :param: baseURL              the remote base URL of the application (optional)
-    :param: sessionConfig       the SessionConfiguration object (by default it uses a defaultSessionConfiguration)
-    :param: requestSerializer   the actual request serializer to use when performing requests
-    :param: responseSerializer the actual response serializer to use upon receiving a response
+    :param: baseURL the remote base URL of the application (optional).
+    :param: sessionConfig the SessionConfiguration object (by default it uses a defaultSessionConfiguration).
+    :param: requestSerializer the actual request serializer to use when performing requests.
+    :param: responseSerializer the actual response serializer to use upon receiving a response.
     
     :returns: the newly intitialized HTTP object
     */
@@ -115,17 +115,22 @@ public class Http {
     /**
     Gateway to perform different http requests including multipart.
     
-    :param: url         the url of the resource.
-    :param: parameters  the request parameters.
-    :param: method      the method to be used.
+    :param: url the url of the resource.
+    :param: parameters the request parameters.
+    :param: method the method to be used.
     :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
     */
-    private func request(url: String, parameters: [String: AnyObject]? = nil,  method: HttpMethod,  credential: NSURLCredential? = nil, completionHandler: CompletionBlock) {
+    public func request(method: HttpMethod, path: String, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, responseSerializer: ResponseSerializer? = nil, completionHandler: CompletionBlock) {
         let block: () -> Void =  {
-            var finalURL = self.calculateURL(self.baseURL, url: url)
+            let finalOptURL = self.calculateURL(self.baseURL, url: path)
+            guard let finalURL = finalOptURL else {
+                let error = NSError(domain: "AeroGearHttp", code: 0, userInfo: [NSLocalizedDescriptionKey: "Malformed URL"])
+                completionHandler(nil, error)
+                return
+            }
             
             var request: NSURLRequest
-            var task: NSURLSessionTask
+            var task: NSURLSessionTask?
             var delegate: TaskDataDelegate
             // care for multipart request is multipart data are set
             if (self.hasMultiPartData(parameters)) {
@@ -139,11 +144,11 @@ public class Http {
             }
             
             delegate.completionHandler = completionHandler
-            delegate.responseSerializer = self.responseSerializer
+            delegate.responseSerializer = responseSerializer == nil ? self.responseSerializer : responseSerializer
             delegate.credential = credential
             
             self.delegate[task] = delegate
-            task.resume()
+            if let task = task {task.resume()}
         }
         
         // cater for authz and pre-authorize prior to performing request
@@ -165,17 +170,23 @@ public class Http {
     /**
     Gateway to perform different file requests either download or upload.
     
-    :param: url         the url of the resource.
-    :param: parameters  the request parameters.
-    :param: method      the method to be used.
-    :param: type        the file request type
-    :param: progress    a block that will be invoked to report progress during either download or upload.
+    :param: url the url of the resource.
+    :param: parameters the request parameters.
+    :param: method the method to be used.
+    :param: responseSerializer the actual response serializer to use upon receiving a response
+    :param: type the file request type
+    :param: progress  a block that will be invoked to report progress during either download or upload.
     :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
     */
-    private func fileRequest(url: String, parameters: [String: AnyObject]? = nil,  method: HttpMethod, credential: NSURLCredential? = nil, type: FileRequestType, progress: ProgressBlock?, completionHandler: CompletionBlock) {
+    private func fileRequest(url: String, parameters: [String: AnyObject]? = nil,  method: HttpMethod, credential: NSURLCredential? = nil, responseSerializer: ResponseSerializer? = nil, type: FileRequestType, progress: ProgressBlock?, completionHandler: CompletionBlock) {
         
         let block: () -> Void  = {
-            var finalURL = self.calculateURL(self.baseURL, url: url)
+            let finalOptURL = self.calculateURL(self.baseURL, url: url)
+            guard let finalURL = finalOptURL else {
+                let error = NSError(domain: "AeroGearHttp", code: 0, userInfo: [NSLocalizedDescriptionKey: "Malformed URL"])
+                completionHandler(nil, error)
+                return
+            }
             var request: NSURLRequest
             // care for multipart request is multipart data are set
             if (self.hasMultiPartData(parameters)) {
@@ -184,7 +195,7 @@ public class Http {
                 request = self.requestSerializer.request(finalURL, method: method, parameters: parameters, headers: self.authzModule?.authorizationFields())
             }
             
-            var task: NSURLSessionTask
+            var task: NSURLSessionTask?
             
             switch type {
             case .Download(let destinationDirectory):
@@ -195,7 +206,7 @@ public class Http {
                 delegate.destinationDirectory = destinationDirectory;
                 delegate.completionHandler = completionHandler
                 delegate.credential = credential
-                
+                delegate.responseSerializer = responseSerializer == nil ? self.responseSerializer : responseSerializer
                 self.delegate[task] = delegate
                 
             case .Upload(let uploadType):
@@ -204,7 +215,7 @@ public class Http {
                     task = self.session.uploadTaskWithRequest(request, fromData: data)
                 case .File(let url):
                     task = self.session.uploadTaskWithRequest(request, fromFile: url)
-                case .Stream(let stream):
+                case .Stream(_):
                     task = self.session.uploadTaskWithStreamedRequest(request)
                 }
                 
@@ -212,11 +223,12 @@ public class Http {
                 delegate.uploadProgress = progress
                 delegate.completionHandler = completionHandler
                 delegate.credential = credential
+                delegate.responseSerializer = responseSerializer
                 
                 self.delegate[task] = delegate
             }
             
-            task.resume()
+            if let task = task {task.resume()}
         }
         
         // cater for authz and pre-authorize prior to performing request
@@ -233,66 +245,6 @@ public class Http {
         } else {
             block()
         }
-    }
-    
-    /**
-    performs an HTTP GET request.
-    
-    :param: url         the url of the resource.
-    :param: parameters  the request parameters.
-    :param: credential  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
-    :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
-    */
-    public func GET(url: String, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, completionHandler: CompletionBlock) {
-        request(url, parameters: parameters,  method:.GET,  credential: credential, completionHandler: completionHandler)
-    }
-    
-    /**
-    performs an HTTP POST request.
-    
-    :param: url          the url of the resource.
-    :param: parameters   the request parameters.
-    :param: credential   the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
-    :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
-    */
-    public func POST(url: String, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, completionHandler: CompletionBlock) {
-        request(url, parameters: parameters, method:.POST, credential: credential, completionHandler: completionHandler)
-    }
-    
-    /**
-    performs an HTTP PUT request.
-    
-    :param: url          the url of the resource.
-    :param: parameters   the request parameters.
-    :param: credential   the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
-    :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
-    */
-    public func PUT(url: String, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, completionHandler: CompletionBlock) {
-        request(url, parameters: parameters, method:.PUT, credential: credential, completionHandler: completionHandler)
-    }
-    
-    /**
-    performs an HTTP DELETE request.
-    
-    :param: url         the url of the resource.
-    :param: parameters  the request parameters.
-    :param: credential  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
-    :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
-    */
-    public func DELETE(url: String, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, completionHandler: CompletionBlock) {
-        request(url, parameters: parameters, method:.DELETE, credential: credential, completionHandler: completionHandler)
-    }
-    
-    /**
-    performs an HTTP HEAD request.
-    
-    :param: url         the url of the resource.
-    :param: parameters  the request parameters.
-    :param: credential  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
-    :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
-    */
-    public func HEAD(url: String, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, completionHandler: CompletionBlock) {
-        request(url, parameters: parameters, method:.HEAD, credential: credential, completionHandler: completionHandler)
     }
     
     /**
@@ -318,11 +270,12 @@ public class Http {
     :param: parameters  the request parameters.
     :param: credential  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
     :param: method      the method to be used, by default a .POST request.
+    :param: responseSerializer the actual response serializer to use upon receiving a response.
     :param: progress    a block that will be invoked to report progress during upload.
     :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
     */
-    public func upload(url: String,  file: NSURL, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, method: HttpMethod = .POST, progress: ProgressBlock?, completionHandler: CompletionBlock) {
-        fileRequest(url, parameters: parameters, method: method, credential: credential, type: .Upload(.File(file)), progress: progress, completionHandler: completionHandler)
+    public func upload(url: String,  file: NSURL, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, method: HttpMethod = .POST, responseSerializer: ResponseSerializer? = nil, progress: ProgressBlock?, completionHandler: CompletionBlock) {
+        fileRequest(url, parameters: parameters, method: method, credential: credential, responseSerializer: responseSerializer, type: .Upload(.File(file)), progress: progress, completionHandler: completionHandler)
     }
     
     /**
@@ -333,26 +286,28 @@ public class Http {
     :param: parameters  the request parameters.
     :param: credential  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
     :param: method       the method to be used, by default a .POST request.
+    :param: responseSerializer the actual response serializer to use upon receiving a response.
     :param: progress     a block that will be invoked to report progress during upload.
     :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
     */
-    public func upload(url: String,  data: NSData, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, method: HttpMethod = .POST, progress: ProgressBlock?, completionHandler: CompletionBlock) {
-        fileRequest(url, parameters: parameters, method: method, credential: credential, type: .Upload(.Data(data)), progress: progress, completionHandler: completionHandler)
+    public func upload(url: String,  data: NSData, parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, method: HttpMethod = .POST, responseSerializer: ResponseSerializer? = nil, progress: ProgressBlock?, completionHandler: CompletionBlock) {
+        fileRequest(url, parameters: parameters, method: method, credential: credential, responseSerializer: responseSerializer, type: .Upload(.Data(data)), progress: progress, completionHandler: completionHandler)
     }
     
     /**
     Request to upload a file using an NSInputStream object.
     
-    :param: url         the URL to upload resource into.
-    :param: stream      the stream that will be used for uploading.
-    :param: parameters  the request parameters.
-    :param: credential  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
-    :param: method      the method to be used, by default a .POST request.
-    :param: progress    a block that will be invoked to report progress during upload.
-    :param: completionHandler A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
+    - parameter url:         the URL to upload resource into.
+    - parameter stream:      the stream that will be used for uploading.
+    - parameter parameters:  the request parameters.
+    - parameter credential:  the credentials to use for basic/digest auth (Note: it is advised that HTTPS should be used by default).
+    - parameter method:      the method to be used, by default a .POST request.
+    - parameter responseSerializer: the actual response serializer to use upon receiving a response.
+    - parameter progress:    a block that will be invoked to report progress during upload.
+    - parameter completionHandler: A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: The object created from the response data of request and the `NSError` object describing the network or parsing error that occurred.
     */
-    public func upload(url: String,  stream: NSInputStream,  parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, method: HttpMethod = .POST, progress: ProgressBlock?, completionHandler: CompletionBlock) {
-        fileRequest(url, parameters: parameters, method: method, credential: credential, type: .Upload(.Stream(stream)), progress: progress, completionHandler: completionHandler)
+    public func upload(url: String,  stream: NSInputStream,  parameters: [String: AnyObject]? = nil, credential: NSURLCredential? = nil, method: HttpMethod = .POST, responseSerializer: ResponseSerializer? = nil, progress: ProgressBlock?, completionHandler: CompletionBlock) {
+        fileRequest(url, parameters: parameters, method: method, credential: credential, responseSerializer: responseSerializer, type: .Upload(.Stream(stream)), progress: progress, completionHandler: completionHandler)
     }
     
     
@@ -363,12 +318,18 @@ public class Http {
         
         private var delegates: [Int:  TaskDelegate]
         
-        private subscript(task: NSURLSessionTask) -> TaskDelegate? {
+        private subscript(task: NSURLSessionTask?) -> TaskDelegate? {
             get {
+                guard let task = task else {
+                    return nil
+                }
                 return self.delegates[task.taskIdentifier]
             }
             
             set (newValue) {
+                guard let task = task else {
+                    return
+                }
                 self.delegates[task.taskIdentifier] = newValue
             }
         }
@@ -382,7 +343,7 @@ public class Http {
             // TODO
         }
         
-        func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
+        func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
         completionHandler(.PerformDefaultHandling, nil)
         }
         
@@ -392,14 +353,14 @@ public class Http {
         
         // MARK: NSURLSessionTaskDelegate
         
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest!) -> Void) {
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest?) -> Void) {
             
             if let delegate = self[task] {
                 delegate.URLSession(session, task: task, willPerformHTTPRedirection: response, newRequest: request, completionHandler: completionHandler)
             }
         }
 
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
         
             if let delegate = self[task] {
                 delegate.URLSession(session, task: task, didReceiveChallenge: challenge, completionHandler: completionHandler)
@@ -408,7 +369,7 @@ public class Http {
             }
         }
         
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, needNewBodyStream completionHandler: (NSInputStream!) -> Void) {
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, needNewBodyStream completionHandler: (NSInputStream?) -> Void) {
             if let delegate = self[task] {
                 delegate.URLSession(session, task: task, needNewBodyStream: completionHandler)
             }
@@ -445,7 +406,7 @@ public class Http {
             }
         }
         
-        func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, willCacheResponse proposedResponse: NSCachedURLResponse, completionHandler: (NSCachedURLResponse!) -> Void) {
+        func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, willCacheResponse proposedResponse: NSCachedURLResponse, completionHandler: (NSCachedURLResponse?) -> Void) {
             completionHandler(proposedResponse)
         }
         
@@ -479,12 +440,12 @@ public class Http {
         
         var credential: NSURLCredential?
 
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest!) -> Void) {
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, willPerformHTTPRedirection response: NSHTTPURLResponse, newRequest request: NSURLRequest, completionHandler: (NSURLRequest?) -> Void) {
         
             completionHandler(request)
         }
         
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
             var disposition: NSURLSessionAuthChallengeDisposition = .PerformDefaultHandling
             var credential: NSURLCredential?
             
@@ -500,11 +461,10 @@ public class Http {
             
             completionHandler(disposition, credential)
         }
+
         
-        func URLSession(session: NSURLSession, task: NSURLSessionTask, needNewBodyStream completionHandler: ((NSInputStream!) -> Void)) {
-            var bodyStream: NSInputStream?
-            
-            completionHandler(bodyStream)
+        func URLSession(session: NSURLSession, task: NSURLSessionTask, needNewBodyStream completionHandler: ((NSInputStream?) -> Void)) {
+
         }
         
         func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
@@ -513,25 +473,25 @@ public class Http {
                 return
             }
             
-            var response = task.response as! NSHTTPURLResponse
             
-            if  let downloadTask = task as? NSURLSessionDownloadTask {
+            let response = task.response as! NSHTTPURLResponse
+            if  let _ = task as? NSURLSessionDownloadTask {
                 completionHandler?(response, error)
                 return
             }
             
-            var error: NSError?
-            var isValid = self.responseSerializer?.validateResponse(response, data: data!, error: &error)
-            var responseObject: AnyObject? = self.responseSerializer?.response(data!)
-            
-            if (isValid == false) {
-                completionHandler?(responseObject, error)
-                return
-            }
-            
-            if (data != nil) {
-                
-                completionHandler?(responseObject, nil)
+            var responseObject: AnyObject? = nil
+            do {
+                if let data = data {
+                    try self.responseSerializer?.validateResponse(response, data)
+                    responseObject = self.responseSerializer?.response(data, response.statusCode)
+                    completionHandler?(responseObject, nil)
+                }
+            } catch let error as NSError {
+                var userInfo = error.userInfo
+                userInfo["StatusCode"] = response.statusCode
+                let errorToRethrow = NSError(domain: error.domain, code: error.code, userInfo: userInfo)
+                completionHandler?(responseObject, errorToRethrow)
             }
         }
     }
@@ -557,8 +517,8 @@ public class Http {
             self.mutableData.appendData(data)
         }
         
-        func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, willCacheResponse proposedResponse: NSCachedURLResponse, completionHandler: (NSCachedURLResponse!) -> Void) {
-        var cachedResponse = proposedResponse
+        func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, willCacheResponse proposedResponse: NSCachedURLResponse, completionHandler: (NSCachedURLResponse?) -> Void) {
+        let cachedResponse = proposedResponse
             completionHandler(cachedResponse)
         }
     }
@@ -568,7 +528,7 @@ public class Http {
         
         var downloadProgress: ((Int64, Int64, Int64) -> Void)?
         var resumeData: NSData?
-        var destinationDirectory: String?
+        var destinationDirectory: NSString?
         
         func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
             let filename = downloadTask.response?.suggestedFilename
@@ -577,15 +537,18 @@ public class Http {
             var finalDestination: NSURL
             if (destinationDirectory == nil) {  // use 'default documents' directory if not set
                 // use default documents directory
-                var documentsDirectory  = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as! NSURL
+                let documentsDirectory  = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as NSURL
                 finalDestination = documentsDirectory.URLByAppendingPathComponent(filename!)
             } else {
                 // check that the directory exists
-                var path = destinationDirectory?.stringByAppendingPathComponent(filename!)
-                finalDestination = NSURL(fileURLWithPath: path!)!
+                let path = destinationDirectory?.stringByAppendingPathComponent(filename!)
+                finalDestination = NSURL(fileURLWithPath: path!)
             }
             
-            NSFileManager.defaultManager().moveItemAtURL(location, toURL: finalDestination, error: nil)
+            do {
+                try NSFileManager.defaultManager().moveItemAtURL(location, toURL: finalDestination)
+            } catch _ {
+            }
         }
 
         func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
@@ -608,14 +571,14 @@ public class Http {
     }
     
     // MARK: Utility methods
-    public func calculateURL(baseURL: String?,  var url: String) -> NSURL {
+    public func calculateURL(baseURL: String?,  var url: String) -> NSURL? {
         if (baseURL == nil || url.hasPrefix("http")) {
             return NSURL(string: url)!
         }
         
-        var finalURL = NSURL(string: baseURL!)!
+        guard let finalURL = NSURL(string: baseURL!) else {return nil}
         if (url.hasPrefix("/")) {
-            url = url.substringFromIndex(advance(url.startIndex, 0))
+            url = url.substringFromIndex(url.startIndex.advancedBy(1))
         }
         
         return finalURL.URLByAppendingPathComponent(url);

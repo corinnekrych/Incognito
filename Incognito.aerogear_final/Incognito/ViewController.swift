@@ -22,7 +22,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBOutlet weak var glassesImage: UIImageView!
   @IBOutlet weak var moustacheImage: UIImageView!
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
@@ -85,14 +85,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     let gdModule = AccountManager.addGoogleAccount(googleConfig)   // [3] Add it to AccountManager
     self.http.authzModule = gdModule                               // [4] Inject the AuthzModule
     // into the HTTP layer object
-    
-    let multipartData = MultiPartData(data: self.snapshot(),       // [5] Define multi-part
+    guard let snapshot = self.snapshot() else {
+      print("ERROR")
+      return
+    }
+    let multipartData = MultiPartData(data: snapshot,       // [5] Define multi-part
       name: "image",
       filename: "incognito_photo",
       mimeType: "image/jpg")
     let multipartArray =  ["file": multipartData]
     
-    self.http.POST("https://www.googleapis.com/upload/drive/v2/files",   // [6] Upload image
+    self.http.request(.POST, path: "https://www.googleapis.com/upload/drive/v2/files",   // [6] Upload image
       parameters: multipartArray,
       completionHandler: {(response, error) in
         if (error != nil) {
@@ -105,14 +108,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   
   // MARK: - UIImagePickerControllerDelegate
   
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
     imagePicker.dismissViewControllerAnimated(true, completion: nil)
     imageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
   }
   
   // MARK: - UIGestureRecognizerDelegate
   
-  func gestureRecognizer(UIGestureRecognizer,
+  func gestureRecognizer(_: UIGestureRecognizer,
     shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
       return true
   }
@@ -126,14 +129,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   }
   
   func presentAlert(title: String, message: String) {
-    var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
     alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
     self.presentViewController(alert, animated: true, completion: nil)
   }
   
-  func snapshot() -> NSData {
+  func snapshot() -> NSData? {
     UIGraphicsBeginImageContext(self.view.frame.size)
-    self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+    guard let context = UIGraphicsGetCurrentContext() else {return nil}
+    self.view.layer.renderInContext(context)
     let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)

@@ -19,7 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var glassesImage: UIImageView!
     @IBOutlet weak var moustacheImage: UIImageView!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -79,14 +79,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     // MARK: - UIImagePickerControllerDelegate
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         imageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
     }
     
     // MARK: - UIGestureRecognizerDelegate
     
-    func gestureRecognizer(UIGestureRecognizer,
+    func gestureRecognizer(_: UIGestureRecognizer,
         shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
             return true
     }
@@ -100,14 +100,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func presentAlert(title: String, message: String) {
-        var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func snapshot() -> NSData {
+    func snapshot() -> NSData? {
         UIGraphicsBeginImageContext(self.view.frame.size)
-        self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        guard let context = UIGraphicsGetCurrentContext() else {return nil}
+        self.view.layer.renderInContext(context)
         let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)

@@ -21,29 +21,50 @@ import Foundation
 A response deserializer to a generic String object.
 */
 public class StringResponseSerializer : ResponseSerializer {
+    /**
+    Deserialize the response received.
     
-    public func response(data: NSData) -> (AnyObject?) {
+    :returns: the serialized response
+    */
+    public var response: (NSData, Int) -> AnyObject? = {(data: NSData, status: Int) -> (AnyObject?) in
         return NSString(data: data, encoding:NSUTF8StringEncoding)
     }
     
-    public func validateResponse(response: NSURLResponse!, data: NSData, error: NSErrorPointer) -> Bool {
+    /**
+    Validate the response received.
+    
+    :returns:  either true or false if the response is valid for this particular serializer.
+    */
+    public var validateResponse: (NSURLResponse!, NSData) throws -> Void = { (response: NSURLResponse!, data: NSData) throws in
+        var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         let httpResponse = response as! NSHTTPURLResponse
         
         if !(httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) {
-            var userInfo = [
+            let userInfo = [
                 NSLocalizedDescriptionKey: NSHTTPURLResponse.localizedStringForStatusCode(httpResponse.statusCode),
                 NetworkingOperationFailingURLResponseErrorKey: response]
 
-            if (error != nil) {
-                error.memory = NSError(domain: HttpResponseSerializationErrorDomain, code: httpResponse.statusCode, userInfo: userInfo)
+            if (true) {
+                error = NSError(domain: HttpResponseSerializationErrorDomain, code: httpResponse.statusCode, userInfo: userInfo)
             }
             
-            return false
+            throw error
         }
-        
-        return true
     }
     
     public init() {
+    }
+    
+    public init(validateResponse: (NSURLResponse!, NSData) throws -> Void, response: (NSData, Int) -> AnyObject?) {
+        self.validateResponse = validateResponse
+        self.response = response
+    }
+    
+    public init(validateResponse: (NSURLResponse!, NSData) throws -> Void) {
+        self.validateResponse = validateResponse
+    }
+    
+    public init(response: (NSData, Int) -> AnyObject?) {
+        self.response = response
     }
 }

@@ -1,5 +1,5 @@
 framework module AeroGearOAuth2 {
-  umbrella header "Pods-AeroGearOAuth2-umbrella.h"
+  umbrella header "AeroGearOAuth2-umbrella.h"
 
   export *
   module * { export * }

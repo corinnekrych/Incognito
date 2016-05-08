@@ -28,7 +28,7 @@ public class KeycloakOAuth2Module: OAuth2Module {
             return;
         }
         let paramDict:[String:String] = [ "client_id": config.clientId, "refresh_token": self.oauth2Session.refreshToken!]
-        http.POST(config.revokeTokenEndpoint!, parameters: paramDict, completionHandler: { (response, error) in
+        http.request(.POST, path: config.revokeTokenEndpoint!, parameters: paramDict, completionHandler: { (response, error) in
             if (error != nil) {
                 completionHandler(nil, error)
                 return
@@ -52,9 +52,9 @@ public class KeycloakOAuth2Module: OAuth2Module {
                 completionHandler(nil, nil, error)
                 return
             }
-            var accessToken = response as? String
+            let accessToken = response as? String
             if let accessToken = accessToken {
-                var token = self.decode(accessToken)
+                let token = self.decode(accessToken)
                 if let decodedToken = token {
                     openIDClaims = OpenIDClaim(fromDict: decodedToken)
                 }
@@ -63,6 +63,11 @@ public class KeycloakOAuth2Module: OAuth2Module {
         }
     }
     
+    /**
+    Request to refresh an access token.
+    
+    :param: completionHandler A block object to be executed when the request operation finishes.
+    */
     public override func refreshAccessToken(completionHandler: (AnyObject?, NSError?) -> Void) {
         if let unwrappedRefreshToken = self.oauth2Session.refreshToken {
             var paramDict: [String: String] = ["refresh_token": unwrappedRefreshToken, "client_id": config.clientId, "grant_type": "refresh_token"]
@@ -70,7 +75,7 @@ public class KeycloakOAuth2Module: OAuth2Module {
                 paramDict["client_secret"] = config.clientSecret!
             }
             
-            http.POST(config.refreshTokenEndpoint!, parameters: paramDict, completionHandler: { (response, error) in
+            http.request(.POST, path: config.refreshTokenEndpoint!, parameters: paramDict, completionHandler: { (response, error) in
                 if (error != nil) {
                     completionHandler(nil, error)
                     return
@@ -100,19 +105,19 @@ public class KeycloakOAuth2Module: OAuth2Module {
         
         var stringtoDecode: String = toDecode.stringByReplacingOccurrencesOfString("-", withString: "+") // 62nd char of encoding
         stringtoDecode = stringtoDecode.stringByReplacingOccurrencesOfString("_", withString: "/") // 63rd char of encoding
-        switch (count(stringtoDecode.utf16) % 4) {
+        switch (stringtoDecode.utf16.count % 4) {
         case 2: stringtoDecode = "\(stringtoDecode)=="
         case 3: stringtoDecode = "\(stringtoDecode)="
         default: // nothing to do stringtoDecode can stay the same
-            println()
+            print("")
         }
-        let dataToDecode = NSData(base64EncodedString: stringtoDecode, options: .allZeros)
+        let dataToDecode = NSData(base64EncodedString: stringtoDecode, options: [])
         let base64DecodedString = NSString(data: dataToDecode!, encoding: NSUTF8StringEncoding)
         
         var values: [String: AnyObject]?
         if let string = base64DecodedString {
             if let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
-                values = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject]
+                values = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? [String : AnyObject]
             }
         }
         return values

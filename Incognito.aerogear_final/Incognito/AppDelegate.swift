@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication,
     openURL url: NSURL,
     sourceApplication: String?,
-    annotation: AnyObject?) -> Bool {
+    annotation: AnyObject) -> Bool {
       let notification = NSNotification(name: AGAppLaunchedWithURLNotification,
         object:nil,
         userInfo:[UIApplicationLaunchOptionsURLKey:url])
