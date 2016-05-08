@@ -77,7 +77,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   
   @IBAction func share(sender: AnyObject) {
     let googleConfig = GoogleConfig(
-      clientId: "YOUR_GOOGLE_CLIENT_ID",                           // [1] Define a Google configuration
+      clientId: "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",                           // [1] Define a Google configuration
       scopes:["https://www.googleapis.com/auth/drive"])            // [2] Specify scope
     
     let gdModule = AccountManager.addGoogleAccount(googleConfig)   // [3] Add it to AccountManager
