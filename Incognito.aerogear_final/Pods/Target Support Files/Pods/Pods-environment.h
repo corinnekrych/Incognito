@@ -9,12 +9,12 @@
 // AeroGearHttp
 #define COCOAPODS_POD_AVAILABLE_AeroGearHttp
 #define COCOAPODS_VERSION_MAJOR_AeroGearHttp 0
-#define COCOAPODS_VERSION_MINOR_AeroGearHttp 2
+#define COCOAPODS_VERSION_MINOR_AeroGearHttp 3
 #define COCOAPODS_VERSION_PATCH_AeroGearHttp 0
 
 // AeroGearOAuth2
 #define COCOAPODS_POD_AVAILABLE_AeroGearOAuth2
 #define COCOAPODS_VERSION_MAJOR_AeroGearOAuth2 0
-#define COCOAPODS_VERSION_MINOR_AeroGearOAuth2 2
+#define COCOAPODS_VERSION_MINOR_AeroGearOAuth2 3
 #define COCOAPODS_VERSION_PATCH_AeroGearOAuth2 0
 

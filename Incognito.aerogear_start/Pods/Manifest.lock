@@ -1,0 +1,22 @@
+PODS:
+  - AeroGearHttp (0.5.1)
+  - AeroGearOAuth2 (0.5.1):
+    - AeroGearHttp
+
+DEPENDENCIES:
+  - AeroGearOAuth2 (from `https://github.com/aerogear/aerogear-ios-oauth2.git`)
+
+EXTERNAL SOURCES:
+  AeroGearOAuth2:
+    :git: https://github.com/aerogear/aerogear-ios-oauth2.git
+
+CHECKOUT OPTIONS:
+  AeroGearOAuth2:
+    :commit: 82e11ebca63f887d7c809bed9ab0cdc87440484a
+    :git: https://github.com/aerogear/aerogear-ios-oauth2.git
+
+SPEC CHECKSUMS:
+  AeroGearHttp: 9eb405b694aa9ac5daff842f68648f4a9fe0fa66
+  AeroGearOAuth2: 40acf794ffff377586bb5ab147c18f32754e3993
+
+COCOAPODS: 0.39.0

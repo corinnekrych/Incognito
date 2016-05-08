@@ -1,0 +1,13 @@
+PODS:
+  - AeroGearHttp (0.3.0)
+  - AeroGearOAuth2 (0.3.0):
+    - AeroGearHttp (= 0.3.0)
+
+DEPENDENCIES:
+  - AeroGearOAuth2 (= 0.3.0)
+
+SPEC CHECKSUMS:
+  AeroGearHttp: 8a233311c6fabb56c3c7be162305c4b0e05348fc
+  AeroGearOAuth2: efc582fdfc57471819db1b748739a3c188df1c48
+
+COCOAPODS: 0.36.4

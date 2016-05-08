@@ -4,10 +4,10 @@ PODS:
     - AeroGearHttp (= 0.2.0)
 
 DEPENDENCIES:
-  - AeroGearOAuth2 (= 0.2.0)
+  - AeroGearOAuth2
 
 SPEC CHECKSUMS:
-  AeroGearHttp: a6ef45092c0d1b0bd7ccfbca1ea003625d8cb2d5
-  AeroGearOAuth2: 74b96e69c3de922af6dc4a81676e6936976cb632
+  AeroGearHttp: da2e0884590168b43799f59176244ab8407dd6a4
+  AeroGearOAuth2: d2ac44e6206b1d44d23afe0ef3bfe108e8964652
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.39.0
