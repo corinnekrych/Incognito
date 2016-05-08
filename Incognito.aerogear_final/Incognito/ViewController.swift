@@ -13,8 +13,6 @@ import AssetsLibrary
 import AeroGearHttp
 import AeroGearOAuth2
 
-// TODO add import
-
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
   var imagePicker = UIImagePickerController()
   @IBOutlet weak var imageView: UIImageView!
@@ -86,7 +84,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     self.http.authzModule = gdModule                               // [4] Inject the AuthzModule
     // into the HTTP layer object
     guard let snapshot = self.snapshot() else {
-      print("ERROR")
+      self.presentAlert("Error", message: "Unable to snapshot the picture")
       return
     }
     let multipartData = MultiPartData(data: snapshot,       // [5] Define multi-part
