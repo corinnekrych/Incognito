@@ -19,7 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBOutlet weak var glassesImage: UIImageView!
   @IBOutlet weak var moustacheImage: UIImageView!
   
-  required init(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
   
@@ -28,10 +28,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // Dispose of any resources that can be recreated.
   }
   
+  // TODO add http instance
   override func viewDidLoad() {
     super.viewDidLoad()
   }
-  
+
   // MARK: - Gesture Action
   
   @IBAction func move(recognizer: UIPanGestureRecognizer) {
@@ -73,32 +74,39 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   }
   
   @IBAction func share(sender: AnyObject) {
+    // 1 Create OAuth2Swift object
     let oauthswift = OAuth2Swift(
-      consumerKey:    "20090539836-ule17ijdem41cbqm9ir4dlc1n4p7c3jn.apps.googleusercontent.com",         // [1] Enter google app settings
-      consumerSecret: "ssRlrs-w0YNj0jq0XsCoJgHT",
+      consumerKey:    "213617875546-sq2e5jvm9qv2plfccc2n3un0c97gufld.apps.googleusercontent.com",         // 2 Enter google app settings
+      consumerSecret: "",
       authorizeUrl:   "https://accounts.google.com/o/oauth2/auth",
       accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
       responseType:   "code"
     )
-    
-    oauthswift.webViewController = WebViewController()
-
-    // [2] Trigger OAuth2 dance
+    oauthswift.allowMissingStateCheck = true
+    if #available(iOS 9.0, *) {
+      oauthswift.authorize_url_handler = SafariURLHandler(viewController: self)
+    } else {
+      // Fallback on earlier versions, we use webwiew.
+    }
+    // 3 Trigger OAuth2 dance
     oauthswift.authorizeWithCallbackURL(
       NSURL(string: "com.raywenderlich.Incognito:/oauth2Callback")!,
-      scope: "https://www.googleapis.com/auth/drive",        // [3] Scope
+      scope: "https://www.googleapis.com/auth/drive",        // 4 Scope
       state: "",
-      success: { credential, response in
-        var parameters =  [String: AnyObject]()
-        // [4] Get the embedded http layer and upload
+      success: { credential, response, parameters  in
+        guard let snapshot = self.snapshot() else {return}
+        let parameters =  [String: AnyObject]()
+        // 5 Get the embedded http layer and upload
         oauthswift.client.postImage(
           "https://www.googleapis.com/upload/drive/v2/files",
           parameters: parameters,
-          image: self.snapshot(),
+          image: snapshot,
           success: { data, response in
-            let jsonDict: AnyObject! = NSJSONSerialization.JSONObjectWithData(data,
-              options: nil,
-              error: nil)
+            do {
+            let _: AnyObject! = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            } catch {
+              self.presentAlert("Error", message: "Ooops some error processing JSON")
+            }
             self.presentAlert("Success", message: "Successfully uploaded!")
           }, failure: {(error:NSError!) -> Void in
             self.presentAlert("Error", message: error!.localizedDescription)
@@ -110,14 +118,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   
   // MARK: - UIImagePickerControllerDelegate
   
-  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
     imagePicker.dismissViewControllerAnimated(true, completion: nil)
     imageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
   }
   
   // MARK: - UIGestureRecognizerDelegate
   
-  func gestureRecognizer(UIGestureRecognizer,
+  func gestureRecognizer(_: UIGestureRecognizer,
     shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
       return true
   }
@@ -131,14 +139,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   }
   
   func presentAlert(title: String, message: String) {
-    var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
     alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
     self.presentViewController(alert, animated: true, completion: nil)
   }
   
-  func snapshot() -> NSData {
+  func snapshot() -> NSData? {
     UIGraphicsBeginImageContext(self.view.frame.size)
-    self.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+    guard let context = UIGraphicsGetCurrentContext() else {return nil}
+    self.view.layer.renderInContext(context)
     let fullScreenshot = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     UIImageWriteToSavedPhotosAlbum(fullScreenshot, nil, nil, nil)

@@ -4,4 +4,5 @@ xcodeproj 'Incognito.xcodeproj'
 platform :ios, '8.0'
 use_frameworks!
  
-pod 'OAuthSwift', '0.3.4'
+#pod 'AeroGearOAuth2', :git => 'https://github.com/aerogear/aerogear-ios-oauth2.git'
+pod 'OAuthSwift', '0.5.2'
