@@ -14,14 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   
-  func application(application: UIApplication,
-    openURL url: NSURL,
+  func application(_ application: UIApplication,
+    open url: URL,
     sourceApplication: String?,
-    annotation: AnyObject) -> Bool {
-      let notification = NSNotification(name: AGAppLaunchedWithURLNotification,
+    annotation: Any) -> Bool {
+      let notification = Notification(name: Notification.Name(rawValue: AGAppLaunchedWithURLNotification),
         object:nil,
-        userInfo:[UIApplicationLaunchOptionsURLKey:url])
-      NSNotificationCenter.defaultCenter().postNotification(notification)
+        userInfo:[UIApplicationLaunchOptionsKey.url:url])
+      NotificationCenter.default.post(notification)
       return true
   }
   

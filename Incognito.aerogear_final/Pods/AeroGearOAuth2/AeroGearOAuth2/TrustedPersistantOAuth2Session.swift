@@ -32,30 +32,31 @@ public enum TokenType: String {
     case RefreshToken = "RefreshToken"
     case ExpirationDate = "ExpirationDate"
     case RefreshExpirationDate = "RefreshExpirationDate"
+    case IdToken = "IdToken"
 }
 
 /**
 A handy Keychain wrapper. It saves your OAuth2 tokens using WhenPasscodeSet ACL.
 */
 public class KeychainWrap {
-    
+
     /**
     The service id. By default set to apple bundle id.
     */
     public var serviceIdentifier: String
-    
+
     /**
     The group id is Keychain access group which is used for sharing keychain content accross multiple apps issued from same developer. By default there is no access group.
     */
     public var groupId: String?
-    
+
     /**
     Initialize KeychainWrapper setting default values.
-    
+
     :param: serviceId unique service, defulated to bundleId
     :param: groupId used for SSO between app issued from same developer certificate.
     */
-    public init(serviceId: String? =  NSBundle.mainBundle().bundleIdentifier, groupId: String? = nil) {
+    public init(serviceId: String? =  Bundle.main.bundleIdentifier, groupId: String? = nil) {
         if serviceId == nil {
             self.serviceIdentifier = "unkown"
         } else {
@@ -63,20 +64,20 @@ public class KeychainWrap {
         }
         self.groupId = groupId
     }
-    
+
     /**
     Save tokens information in Keychain.
-    
+
     :param: key usually use accountId for oauth2 module, any unique string.
     :param: tokenType type of token: access, refresh.
     :param: value string value of the token.
     */
     public func save(key: String, tokenType: TokenType, value: String) -> Bool {
-        let dataFromString: NSData? = value.dataUsingEncoding(NSUTF8StringEncoding)
+        let dataFromString: Data? = value.data(using: String.Encoding.utf8)
         if (dataFromString == nil) {
             return false
         }
-        
+
         // Instantiate a new default keychain query
         let keychainQuery = NSMutableDictionary()
         if let groupId = self.groupId {
@@ -85,17 +86,17 @@ public class KeychainWrap {
         keychainQuery[kSecClass as String] = kSecClassGenericPassword
         keychainQuery[kSecAttrService as String] = self.serviceIdentifier
         keychainQuery[kSecAttrAccount as String] = key + "_" + tokenType.rawValue
-        keychainQuery[kSecAttrAccessible as String] = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
+        keychainQuery[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
 
         // Search for the keychain items
         let statusSearch: OSStatus = SecItemCopyMatching(keychainQuery, nil)
-        
+
         // if found update
         if (statusSearch == errSecSuccess) {
             if (dataFromString != nil) {
                 let attributesToUpdate = NSMutableDictionary()
                 attributesToUpdate[kSecValueData as String] = dataFromString!
-                
+
                 let statusUpdate: OSStatus = SecItemUpdate(keychainQuery, attributesToUpdate)
                 if (statusUpdate != errSecSuccess) {
                     print("tokens not updated")
@@ -114,13 +115,13 @@ public class KeychainWrap {
         } else { // error case
             return false
         }
-        
+
         return true
     }
-    
+
     /**
     Delete a specific token in Keychain.
-     
+
     :param: key usually use accountId for oauth2 module, any unique string.
     :param: tokenType type of token.
     */
@@ -132,16 +133,16 @@ public class KeychainWrap {
         keychainQuery[kSecClass as String] = kSecClassGenericPassword
         keychainQuery[kSecAttrService as String] = self.serviceIdentifier
         keychainQuery[kSecAttrAccount as String] = key + "_" + tokenType.rawValue
-        keychainQuery[kSecAttrAccessible as String] = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
+        keychainQuery[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
 
         let statusDelete: OSStatus = SecItemDelete(keychainQuery)
-        
+
         return statusDelete == noErr
     }
-    
+
     /**
     Read tokens information in Keychain. If the entry is not found return nil.
-    
+
     :param: userAccount key of the keychain entry, usually accountId for oauth2 module.
     :param: tokenType type of token: access, refresh.
     */
@@ -153,13 +154,15 @@ public class KeychainWrap {
         keychainQuery[kSecClass as String] = kSecClassGenericPassword
         keychainQuery[kSecAttrService as String] = self.serviceIdentifier
         keychainQuery[kSecAttrAccount as String] = userAccount + "_" + tokenType.rawValue
-        keychainQuery[kSecReturnData as String] = true
-        keychainQuery[kSecAttrAccessible as String] = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
+        keychainQuery[kSecMatchLimit as String] = kSecMatchLimitOne
+        keychainQuery[kSecReturnData as String] = kCFBooleanTrue
+        keychainQuery[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
 
-        
-        var dataTypeRef: Unmanaged<AnyObject>?
+        var dataTypeRef: AnyObject?
         // Search for the keychain items
-        let status: OSStatus = withUnsafeMutablePointer(&dataTypeRef) { SecItemCopyMatching(keychainQuery as CFDictionaryRef, UnsafeMutablePointer($0)) }
+        let status: OSStatus = withUnsafeMutablePointer(to: &dataTypeRef) {
+            SecItemCopyMatching(keychainQuery as CFDictionary, UnsafeMutablePointer($0))
+        }
 
         if (status == errSecItemNotFound) {
             print("\(tokenType.rawValue) not found")
@@ -168,36 +171,29 @@ public class KeychainWrap {
             print("Error attempting to retrieve \(tokenType.rawValue) with error code \(status) ")
             return nil
         }
-        
-        let opaque = dataTypeRef?.toOpaque()
-        var contentsOfKeychain: String?
-        if let op = opaque {
-            let retrievedData = Unmanaged<NSData>.fromOpaque(op).takeUnretainedValue()
-            
-            // Convert the data retrieved from the keychain into a string
-            contentsOfKeychain = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) as? String
-        } else {
-            print("Nothing was retrieved from the keychain. Status code \(status)")
+
+        guard let keychainData = dataTypeRef as? Data else {
+            return nil
         }
-        
-        return contentsOfKeychain
+
+        return String(data: keychainData, encoding: String.Encoding.utf8) as String?
     }
-    
+
     /**
-    Clear all keychain entries. Note that Keychain can only be cleared progemmatically.
+    Clear all keychain entries. Note that Keychain can only be cleared programmatically.
     */
     public func resetKeychain() -> Bool {
-        return self.deleteAllKeysForSecClass(kSecClassGenericPassword) &&
-            self.deleteAllKeysForSecClass(kSecClassInternetPassword) &&
-            self.deleteAllKeysForSecClass(kSecClassCertificate) &&
-            self.deleteAllKeysForSecClass(kSecClassKey) &&
-            self.deleteAllKeysForSecClass(kSecClassIdentity)
+        return self.deleteAllKeysForSecClass(secClass: kSecClassGenericPassword) &&
+            self.deleteAllKeysForSecClass(secClass: kSecClassInternetPassword) &&
+            self.deleteAllKeysForSecClass(secClass: kSecClassCertificate) &&
+            self.deleteAllKeysForSecClass(secClass: kSecClassKey) &&
+            self.deleteAllKeysForSecClass(secClass: kSecClassIdentity)
     }
-    
+
     func deleteAllKeysForSecClass(secClass: CFTypeRef) -> Bool {
         let keychainQuery = NSMutableDictionary()
         keychainQuery[kSecClass as String] = secClass
-        let result:OSStatus = SecItemDelete(keychainQuery)
+        let result: OSStatus = SecItemDelete(keychainQuery)
         if (result == errSecSuccess) {
             return true
         } else {
@@ -210,118 +206,133 @@ public class KeychainWrap {
 An OAuth2Session implementation to store OAuth2 metadata using the Keychain.
 */
 public class TrustedPersistantOAuth2Session: OAuth2Session {
-    
+
     /**
     The account id.
     */
     public var accountId: String
-    
+
     /**
     The access token's expiration date.
     */
-    public var accessTokenExpirationDate: NSDate? {
+    public var accessTokenExpirationDate: Date? {
         get {
-            let dateAsString = self.keychain.read(self.accountId, tokenType: .ExpirationDate)
-            if let unwrappedDate:String = dateAsString {
-                return NSDate(dateString: unwrappedDate)
+            let dateAsString = self.keychain.read(userAccount: self.accountId, tokenType: .ExpirationDate)
+            if let unwrappedDate: String = dateAsString {
+                return Date(dateString: unwrappedDate) as Date?
             } else {
                 return nil
             }
         }
         set(value) {
             if let unwrappedValue = value {
-                self.keychain.save(self.accountId, tokenType: .ExpirationDate, value: unwrappedValue.toString())
+                _ = self.keychain.save(key: self.accountId, tokenType: .ExpirationDate, value: unwrappedValue.toString())
             } else {
-                self.keychain.delete(self.accountId, tokenType: .ExpirationDate)
+                _ = self.keychain.delete(key: self.accountId, tokenType: .ExpirationDate)
             }
         }
     }
-    
+
     /**
     The access token. The information is read securely from Keychain.
     */
     public var accessToken: String? {
         get {
-            return self.keychain.read(self.accountId, tokenType: .AccessToken)
+            return self.keychain.read(userAccount: self.accountId, tokenType: .AccessToken)
         }
         set(value) {
             if let unwrappedValue = value {
-                self.keychain.save(self.accountId, tokenType: .AccessToken, value: unwrappedValue)
+                _ = self.keychain.save(key: self.accountId, tokenType: .AccessToken, value: unwrappedValue)
             } else {
-                self.keychain.delete(self.accountId, tokenType: .AccessToken)
+                _ = self.keychain.delete(key: self.accountId, tokenType: .AccessToken)
             }
         }
     }
-    
+
     /**
     The refresh token. The information is read securely from Keychain.
     */
     public var refreshToken: String? {
         get {
-            return self.keychain.read(self.accountId, tokenType: .RefreshToken)
+            return self.keychain.read(userAccount: self.accountId, tokenType: .RefreshToken)
         }
         set(value) {
             if let unwrappedValue = value {
-                self.keychain.save(self.accountId, tokenType: .RefreshToken, value: unwrappedValue)
+                _ = self.keychain.save(key: self.accountId, tokenType: .RefreshToken, value: unwrappedValue)
             } else {
-                self.keychain.delete(self.accountId, tokenType: .RefreshToken)
+                _ = self.keychain.delete(key: self.accountId, tokenType: .RefreshToken)
             }
         }
     }
-    
+
     /**
     The refresh token's expiration date.
     */
-    public var refreshTokenExpirationDate: NSDate? {
+    public var refreshTokenExpirationDate: Date? {
         get {
-            let dateAsString = self.keychain.read(self.accountId, tokenType: .RefreshExpirationDate)
-            if let unwrappedDate:String = dateAsString {
-                return NSDate(dateString: unwrappedDate)
+            let dateAsString = self.keychain.read(userAccount: self.accountId, tokenType: .RefreshExpirationDate)
+            if let unwrappedDate: String = dateAsString {
+                return Date(dateString: unwrappedDate)
             } else {
                 return nil
             }
         }
         set(value) {
             if let unwrappedValue = value {
-                _ = self.keychain.save(self.accountId, tokenType: .RefreshExpirationDate, value: unwrappedValue.toString())
+                _ = self.keychain.save(key: self.accountId, tokenType: .RefreshExpirationDate, value: unwrappedValue.toString())
             } else {
-                self.keychain.delete(self.accountId, tokenType: .RefreshExpirationDate)
+                _ = self.keychain.delete(key: self.accountId, tokenType: .RefreshExpirationDate)
             }
         }
     }
-    
+
+    /**
+    The JWT. The information is read securely from Keychain.
+    */
+    public var idToken: String? {
+        get {
+            return self.keychain.read(userAccount: self.accountId, tokenType: .IdToken)
+        }
+        set(value) {
+            if let unwrappedValue = value {
+                _ = self.keychain.save(key: self.accountId, tokenType: .IdToken, value: unwrappedValue)
+            }
+        }
+    }
+
     private let keychain: KeychainWrap
-    
+
     /**
     Check validity of accessToken. return true if still valid, false when expired.
     */
     public func tokenIsNotExpired() -> Bool {
-        return  self.accessTokenExpirationDate != nil ? (self.accessTokenExpirationDate!.timeIntervalSinceDate(NSDate()) > 0) : true
+        return  self.accessTokenExpirationDate != nil ? (self.accessTokenExpirationDate!.timeIntervalSince(Date()) > 0) : true
     }
-    
+
     /**
     Check validity of refreshToken. return true if still valid, false when expired.
     */
     public func refreshTokenIsNotExpired() -> Bool {
-        return  self.refreshTokenExpirationDate != nil ? (self.refreshTokenExpirationDate!.timeIntervalSinceDate(NSDate()) > 0) : true
+        return  self.refreshTokenExpirationDate != nil ? (self.refreshTokenExpirationDate!.timeIntervalSince(Date()) > 0) : true
     }
-    
+
     /**
     Save in memory tokens information. Saving tokens allow you to refresh accesstoken transparently for the user without prompting for grant access.
     */
-    public func saveAccessToken(accessToken: String?, refreshToken: String?, accessTokenExpiration: String?, refreshTokenExpiration: String?) {
+    public func save(accessToken: String?, refreshToken: String?, accessTokenExpiration: String?, refreshTokenExpiration: String?, idToken: String?) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
-        
-        let now = NSDate()
+        self.idToken = idToken
+
+        let now = Date()
         if let inter = accessTokenExpiration?.doubleValue {
-            self.accessTokenExpirationDate = now.dateByAddingTimeInterval(inter)
+            self.accessTokenExpirationDate = now.addingTimeInterval(inter)
         }
         if let inter = refreshTokenExpiration?.doubleValue {
-            self.refreshTokenExpirationDate = now.dateByAddingTimeInterval(inter)
+            self.refreshTokenExpirationDate = now.addingTimeInterval(inter)
         }
     }
-    
+
     /**
     Clear all tokens. Method used when doing logout or revoke.
     */
@@ -330,11 +341,12 @@ public class TrustedPersistantOAuth2Session: OAuth2Session {
         self.refreshToken = nil
         self.accessTokenExpirationDate = nil
         self.refreshTokenExpirationDate = nil
+        self.idToken = nil
     }
-    
+
     /**
     Initialize TrustedPersistantOAuth2Session using account id. Account id is the service id used for keychain storage.
-    
+
     :param: accountId uniqueId to identify the oauth2module
     :param: groupId used for SSO between app issued from same developer certificate.
     :param: accessToken optional parameter to initilaize the storage with initial values
@@ -345,29 +357,29 @@ public class TrustedPersistantOAuth2Session: OAuth2Session {
     public init(accountId: String,
         groupId: String? = nil,
         accessToken: String? = nil,
-        accessTokenExpirationDate: NSDate? = nil,
+        accessTokenExpirationDate: Date? = nil,
         refreshToken: String? = nil,
-        refreshTokenExpirationDate: NSDate? = nil) {
+        refreshTokenExpirationDate: Date? = nil) {
             self.accountId = accountId
             if groupId != nil {
                 self.keychain = KeychainWrap(serviceId: groupId, groupId: groupId)
             } else {
                 self.keychain = KeychainWrap()
             }
-            
+
             if accessToken != nil {
                 self.accessToken = accessToken
             }
-            
+
             if refreshToken != nil {
                 self.refreshToken = refreshToken
             }
-            
-            if accessTokenExpirationDate != nil {
-                self.accessTokenExpirationDate = accessTokenExpirationDate
+
+            if accessToken != nil && accessTokenExpirationDate != nil {
+                self.accessTokenExpirationDate = accessTokenExpirationDate as Date?
             }
-            
-            if refreshToken != nil {
+
+            if refreshToken != nil && refreshTokenExpirationDate != nil {
                 self.refreshTokenExpirationDate = refreshTokenExpirationDate
             }
     }
